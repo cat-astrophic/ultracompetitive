@@ -1,3 +1,5 @@
 # ultracompetitive
 
-This repo is for a project at the intersection of gender and sports economics.
+This repo is for a project looking at competition & gender.
+
+More files which generate some initial data need to be brought over from a related project...
