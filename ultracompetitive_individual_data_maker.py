@@ -563,7 +563,7 @@ def time_to_sec(inp):
         
         a = inp.find(':')
         b = inp[a+1:].find(':')
-        seconds = 1*int(inp[a+b+2:]) + 60*int(inp[a+1:a+b+1]) + 360*int(inp[:a])
+        seconds = 1*int(inp[a+b+2:]) + 60*int(inp[a+1:a+b+1]) + 3600*int(inp[:a])
         
     except:
         
@@ -581,26 +581,12 @@ compdata = pd.concat([compdata, seconds, seconds_py], axis = 1)
 
 # Calculate the percent change in performance when Raced_PY == 1 and add to dataframe
 
-delta = []
+delta_time = [100*(compdata.Seconds[i] - compdata.Seconds_PY[i]) / compdata.Seconds_PY[i] for i in range(len(compdata))]
+delta_distance = [100*(compdata.Distance[i] - compdata.Distance_PY[i]) / compdata.Distance_PY[i] for i in range(len(compdata))]
 
-for i in range(len(compdata)):
-    
-    print('Computing Y ' + str(i+1) + ' of ' + str(len(compdata)) + '.......') # Visualize progress
-    
-    if compdata.Raced_PY[i] == 0:
-        
-        delta.append(None)
-        
-    elif compdata.Seconds[i] > 10: # No race is this short so use time not distance
-        
-        delta.append(100*(compdata.Seconds[i] - compdata.Seconds_PY[i]) / compdata.Seconds_PY[i])
-        
-    else: # Use distance
-        
-        delta.append(100*(compdata.Distance[i] - compdata.Distance_PY[i]) / compdata.Distance_PY[i])
-
-delta = pd.Series(delta, name = 'Y')
-compdata = pd.concat([compdata, delta], axis = 1)
+delta_time = pd.Series(delta_time, name = 'Y_time')
+delta_distance = pd.Series(delta_distance, name = 'Y_distance')
+compdata = pd.concat([compdata, delta_time, delta_distance], axis = 1)
 
 # Create a time since COVID variable to control for the impact of COVID on training and add to dataframe
 
