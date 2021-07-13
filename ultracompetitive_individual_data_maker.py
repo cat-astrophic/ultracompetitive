@@ -594,6 +594,12 @@ compact = [max(0,int((datetime.strptime(compdata.Clean_Race_Date[i], '%m/%d/%Y')
 compact = pd.Series(compact, name = 'Days_Since_COVID')
 compdata = pd.concat([compdata, compact], axis = 1)
 
+# Creating an in-state variable
+
+instate = [1 if compdata.State[i] == compdata.RACE_State[i] else 0 for i in range(len(compdata))]
+instate = pd.Series(instate, name = 'In_State')
+compdata = pd.concat([compdata, instate], axis = 1)
+
 # Write the complete dataframe to file
 
 compdata.to_csv(filepath + 'output.csv', index = False)
