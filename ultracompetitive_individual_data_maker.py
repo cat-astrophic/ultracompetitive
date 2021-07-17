@@ -693,6 +693,32 @@ gender_place_py_quartile = pd.Series(gender_place_py_quartile, name = 'Gender_Pl
 
 compdata = pd.concat([compdata, overall_py, gender_place_py, age_place_py, overall_py_percentile, gender_place_py_percentile, overall_py_quartile, gender_place_py_quartile], axis = 1)
 
+# Multiplying Y_time by -1 so that it has values consistent with Y_distance
+
+compdata.Y_time = -1 * compdata.Y_time
+
+# Creating an all encompassing Y variable
+
+def Y(i1,i2):
+    
+    if (pd.isnull(i1) == True) and (pd.isnull(i2) == True):
+        
+        out = None
+        
+    elif (pd.isnull(i1) == False) and (pd.isnull(i2) == True):
+        
+        out = i1
+        
+    else:
+        
+        out = i2
+    
+    return out
+
+yvec = [Y(compdata.Y_time[i],compdata.Y_distance[i]) for i in range(len(compdata))]
+yvec = pd.Series(yvec, name = 'Y')
+compdata = pd.concat([compdata, yvec], axis = 1)
+
 # Write the complete dataframe to file
 
 compdata.to_csv(filepath + 'output.csv', index = False)
