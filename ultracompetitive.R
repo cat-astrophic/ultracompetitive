@@ -1,4 +1,4 @@
-# This script does the econometrics for the ultraCOVID project
+# This script runs regressions for the gender + competition project
 
 # Loading libraries
 
@@ -15,129 +15,144 @@ compdata <- read.csv(paste('C:/Users/', username, '/Documents/Data/ultracompetit
 
 # Running regressions
 
-t5 <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-         + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-         + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-         + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-         + Gender_Place + Age_Place + factor(RACE_Month)
-         + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-         + I(Experience_Races^2) + I(Days_Since_Last_Race^2), data = compdata)
+mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+          + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+          + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+          + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+          + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+          + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar), data = compdata)
 
-ct5 <- vcovHC(t5, type = 'HC0')
-rset5 <- sqrt(diag(ct5))
+cm <- vcovHC(mod, type = 'HC0')
+rsem <- sqrt(diag(cm))
 
-d5 <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-         + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-         + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-         + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-         + Gender_Place + Age_Place + factor(RACE_Month)
-         + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-         + I(Experience_Races^2) + I(Days_Since_Last_Race^2), data = compdata)
+tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar), data = compdata)
 
-cd5 <- vcovHC(d5, type = 'HC0')
-rsed5 <- sqrt(diag(cd5))
+ct <- vcovHC(tmod, type = 'HC0')
+rset <- sqrt(diag(ct))
 
-m50k2 <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-           + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-           + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-           + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-           + Gender_Place + Age_Place + factor(RACE_Month)
-           + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-           + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar), data = compdata)
+
+cd <- vcovHC(dmod, type = 'HC0')
+rsed <- sqrt(diag(cd))
+
+m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '50 KM'),])
 
-c50k <- vcovHC(m50k2, type = 'HC0')
+c50k <- vcovHC(m50k, type = 'HC0')
 rse50k <- sqrt(diag(c50k))
 
-m100k2 <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-            + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-            + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-            + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-            + Gender_Place + Age_Place + factor(RACE_Month)
-            + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-            + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+            + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+            + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
             data = compdata[which(compdata$RACE_Distance == '100 KM'),])
 
-c100k <- vcovHC(m100k2, type = 'HC0')
+c100k <- vcovHC(m100k, type = 'HC0')
 rse100k <- sqrt(diag(c100k))
 
-m50m2 <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-           + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-           + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-           + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-           + Gender_Place + Age_Place + factor(RACE_Month)
-           + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-           + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '50 Miles'),])
 
-c50m <- vcovHC(m50m2, type = 'HC0')
+c50m <- vcovHC(m50m, type = 'HC0')
 rse50m <- sqrt(diag(c50m))
 
-m100m2 <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-            + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-            + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-            + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-            + Gender_Place + Age_Place + factor(RACE_Month)
-            + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-            + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+            + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+            + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
             data = compdata[which(compdata$RACE_Distance == '100 Miles'),])
 
-c100m <- vcovHC(m100m2, type = 'HC0')
+c100m <- vcovHC(m100m, type = 'HC0')
 rse100m <- sqrt(diag(c100m))
 
-m6h2 <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-          + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-          + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-          + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-          + Gender_Place + Age_Place + factor(RACE_Month)
-          + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-          + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+          + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+          + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+          + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+          + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+          + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
           data = compdata[which(compdata$RACE_Distance == '6 Hours'),])
 
-c6h <- vcovHC(m6h2, type = 'HC0')
+c6h <- vcovHC(m6h, type = 'HC0')
 rse6h <- sqrt(diag(c6h))
 
-m12h2 <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-           + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-           + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-           + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-           + Gender_Place + Age_Place + factor(RACE_Month)
-           + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-           + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '12 Hours'),])
 
-c12h <- vcovHC(m12h2, type = 'HC0')
+c12h <- vcovHC(m12h, type = 'HC0')
 rse12h <- sqrt(diag(c12h))
 
-m24h2 <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-           + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-           + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-           + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-           + Gender_Place + Age_Place + factor(RACE_Month)
-           + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-           + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '24 Hours'),])
 
-c24h <- vcovHC(m24h2, type = 'HC0')
+c24h <- vcovHC(m24h, type = 'HC0')
 rse24h <- sqrt(diag(c24h))
 
-m48h2 <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Experience_Races
-           + Experience_Years + Age + Same_County_Competitors + Travel_Distance
-           + Days_Since_COVID + Some_College_Ass + College_Degree + Unemployment_Rate
-           + Median_Household_Income + Days_Since_Last_Race + In_State + Overall
-           + Gender_Place + Age_Place + factor(RACE_Month)
-           + factor(RACE_Year) + I(Age^2) + I(Experience_Years^2)
-           + I(Experience_Races^2) + I(Days_Since_Last_Race^2),
+m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
+           + Gender_Place_PY_Percentile  + Travel_Distance + Same_County_Competitors
+           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
+           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
+           + I(Days_Since_Last_Race^2) + Some_HS + HS + Some_Uni + Associate
+           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '48 Hours'),])
 
-c48h <- vcovHC(m48h2, type = 'HC0')
+c48h <- vcovHC(m48h, type = 'HC0')
 rse48h <- sqrt(diag(c48h))
 
-# Results
+# Viewing and saving the results
 
-stargazer(m50k2,m100k2,m50m2,m100m2,t5, type = 'text', se = list(rse50k,rse100k,rse50m,rse100m),
-          omit = c('RACE_Month', 'RACE_Year'), omit.stat = c('f', 'ser'))
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,dmod,mod,
+                    se = list(rse50k,rse100k,rse50m,rse100m,rset,rse6h,rse12h,rse24h,rse48h,rsed,rsem),
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_tex.txt', sep = ''), row.names = FALSE)
 
-stargazer(m6h2,m12h2,m24h2,m48h2,d5, type = 'text', se = list(rse6h,rse12h,rse24h,rse48h),
-          omit = c('RACE_Month', 'RACE_Year'), omit.stat = c('f', 'ser'))
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,dmod,mod,
+                    se = list(rse50k,rse100k,rse50m,rse100m,rset,rse6h,rse12h,rse24h,rse48h,rsed,rsem),
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results.txt', sep = ''), row.names = FALSE)
 
