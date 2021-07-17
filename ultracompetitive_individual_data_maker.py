@@ -3,6 +3,7 @@
 # Importing required modules
 
 import pandas as pd
+import numpy as np
 from datetime import datetime
 from geopy.distance import geodesic
 
@@ -16,8 +17,9 @@ filepath = 'C:/Users/' + username + '/Documents/Data/ultracompetitive/'
 compdata = pd.read_csv(filepath + 'raw_data.csv') # Main dataframe :: comes from the ultraCOVID project
 ccmap = pd.read_csv(filepath + 'ccmap.csv', sep = '|') # City to county map
 latlong = pd.read_csv(filepath + 'latlong.csv') # GPS coords for each county
+altdata = pd.read_csv(filepath + 'altitude_data.csv') # Mean elevation for each county
 
-# Normalizing latling county data to lowercase
+# Normalizing latlong county data to lowercase
 
 latlong.Admin2 = latlong.Admin2.str.lower()
 
@@ -599,6 +601,97 @@ compdata = pd.concat([compdata, compact], axis = 1)
 instate = [1 if compdata.State[i] == compdata.RACE_State[i] else 0 for i in range(len(compdata))]
 instate = pd.Series(instate, name = 'In_State')
 compdata = pd.concat([compdata, instate], axis = 1)
+
+# Creating runner home county altitude variable
+
+def alt_maker(inp):
+    
+    try:
+        
+        tmp = altdata[altdata.FIPS == int(inp)].reset_index(drop = True)
+        alti = tmp.ALtitude[0]
+        
+    except:
+        
+        alti = None
+        
+    return alti
+
+altitude = [alt_maker(x) for x in compdata.FIPS]
+altitude = pd.Series(altitude, name = 'Altitude')
+compdata = pd.concat([compdata, altitude], axis = 1)
+
+# Convert position data to percentiles and quartiles
+# Percentiles range from 100% as first place to -> 0% as last place
+# Quartiles are given by 4 as the fastest quartile and 1 as the slowest quartile
+
+overall_py = []
+gender_place_py = []
+age_place_py = []
+
+overall_py_percentile = []
+gender_place_py_percentile = []
+
+overall_py_quartile = []
+gender_place_py_quartile = []
+
+for i in range(len(compdata)):
+    
+    print(str(i+1) + ' of ' + str(len(compdata)) + '.......') # Visualizing progress
+    
+    if compdata.Raced_PY[i] == 1:
+        
+        try:
+            
+            runid = compdata.Runner_ID[i] # Get next runner id
+            raceid = compdata.idvar[i] # Get next race id
+            yr = compdata.RACE_Year[i] # Get year of event
+            g = compdata.Gender[i] # Get runner gender
+            
+            temp = compdata[compdata.idvar == raceid] # Subset for race id
+            temp = temp[temp.RACE_Year == yr-1] # Subset for PY race
+            temp2 = temp[temp.Runner_ID == runid].reset_index(drop = True) # Subset for runner id
+            temp3 = temp[temp.Gender == g] # Subset for same gender
+            
+            overall_py.append(temp2.Overall[0])
+            gender_place_py.append(temp2.Gender_Place[0])
+            age_place_py.append(temp2.Age_Place[0])
+            
+            overall_py_percentile.append(100*(1-((temp2.Overall[0]-1) / max(temp.Overall))))
+            gender_place_py_percentile.append(100*(1-((temp2.Gender_Place[0]-1) / max(temp3.Gender_Place))))
+            
+            overall_py_quartile.append(np.ceil((100*(1-((temp2.Overall[0]-1) / max(temp.Overall))))/25))
+            gender_place_py_quartile.append(np.ceil((100*(1-((temp2.Gender_Place[0]-1) / max(temp3.Gender_Place))))/25))
+        
+        except:
+            
+            overall_py.append(None)
+            gender_place_py.append(None)
+            age_place_py.append(None)
+            overall_py_percentile.append(None)
+            gender_place_py_percentile.append(None)
+            overall_py_quartile.append(None)
+            gender_place_py_quartile.append(None)
+            
+    else:
+        
+        overall_py.append(None)
+        gender_place_py.append(None)
+        age_place_py.append(None)
+        overall_py_percentile.append(None)
+        gender_place_py_percentile.append(None)
+        overall_py_quartile.append(None)
+        gender_place_py_quartile.append(None)
+
+overall_py = pd.Series(overall_py, name = 'Overall_PY')
+gender_place_py = pd.Series(gender_place_py, name = 'Gender_Place_PY')
+age_place_py = pd.Series(age_place_py, name = 'Age_Place_PY')
+overall_py_percentile = pd.Series(overall_py_percentile, name = 'Overall_PY_Percentile')
+gender_place_py_percentile = pd.Series(gender_place_py_percentile, name = 'Gender_Place_PY_Percentile')
+overall_py_quartile = pd.Series(overall_py_quartile, name = 'Overall_PY_Quartile')
+gender_place_py_quartile = pd.Series(gender_place_py_quartile, name = 'Gender_Place_PY_Quartile')
+
+compdata = pd.concat([compdata, overall_py, gender_place_py, age_place_py, overall_py_percentile, gender_place_py_percentile, overall_py_quartile, gender_place_py_quartile], axis = 1)
 
 # Write the complete dataframe to file
 
