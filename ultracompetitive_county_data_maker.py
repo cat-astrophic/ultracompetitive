@@ -233,8 +233,8 @@ for i in range(len(compdata)):
     
     try:
         
-        fip = compdata.iloc[i]['FIPS'] # Get the location of the event
-        yr = compdata.iloc[i]['RACE_Year'] # Get the year of the event
+        fip = int(compdata.iloc[i]['FIPS']) # Get the location of the event
+        yr = compdata.iloc[i]['RACE_Year'] - 1 # Get the year of the event
         
         tmp = edu[edu['ï»¿fips'] == fip].reset_index(drop = True) # Subset for location
         
@@ -274,7 +274,7 @@ for i in range(len(compdata)):
     try:
        
         fip = compdata.iloc[i]['FIPS'] # Get the location of the event
-        yr = compdata.iloc[i]['RACE_Year'] # Get the year of the event
+        yr = compdata.iloc[i]['RACE_Year'] - 1 # Get the year of the event
        
         tmp = labor[labor['ï»¿fips'] == fip] # Subset for location
         tmp = tmp[tmp.year == yr].reset_index(drop = True) # Subset for year
@@ -299,7 +299,7 @@ for i in range(len(compdata)):
     try:
        
         fip = compdata.iloc[i]['FIPS'] # Get the location of the event
-        yr = compdata.iloc[i]['RACE_Year'] # Get the year of the event
+        yr = compdata.iloc[i]['RACE_Year'] - 1 # Get the year of the event
        
         tmp = inc[inc['countyid'] == fip] # Subset for location
         tmp = tmp[tmp['ï»¿year'] == yr].reset_index(drop = True) # Subset for year
