@@ -15,8 +15,8 @@ compdata <- read.csv(paste('C:/Users/', username, '/Documents/Data/ultracompetit
 
 # Running regressions
 
-mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-          + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+          + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -26,8 +26,8 @@ mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
 cm <- vcovHC(mod, type = 'HC0')
 rsem <- sqrt(diag(cm))
 
-tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -37,8 +37,8 @@ tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Perce
 ct <- vcovHC(tmod, type = 'HC0')
 rset <- sqrt(diag(ct))
 
-dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -48,8 +48,8 @@ dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_P
 cd <- vcovHC(dmod, type = 'HC0')
 rsed <- sqrt(diag(cd))
 
-m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -60,8 +60,8 @@ m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Perce
 c50k <- vcovHC(m50k, type = 'HC0')
 rse50k <- sqrt(diag(c50k))
 
-m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-            + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+            + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
             + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -72,8 +72,8 @@ m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Perc
 c100k <- vcovHC(m100k, type = 'HC0')
 rse100k <- sqrt(diag(c100k))
 
-m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -84,8 +84,8 @@ m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Perce
 c50m <- vcovHC(m50m, type = 'HC0')
 rse50m <- sqrt(diag(c50m))
 
-m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-            + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+            + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
             + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -96,8 +96,8 @@ m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Perc
 c100m <- vcovHC(m100m, type = 'HC0')
 rse100m <- sqrt(diag(c100m))
 
-m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-          + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+          + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -108,8 +108,8 @@ m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Pe
 c6h <- vcovHC(m6h, type = 'HC0')
 rse6h <- sqrt(diag(c6h))
 
-m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -120,8 +120,8 @@ m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_P
 c12h <- vcovHC(m12h, type = 'HC0')
 rse12h <- sqrt(diag(c12h))
 
-m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
@@ -132,8 +132,8 @@ m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_P
 c24h <- vcovHC(m24h, type = 'HC0')
 rse24h <- sqrt(diag(c24h))
 
-m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY_Percentile
-           + Gender_Place_PY_Percentile + Travel_Distance + Same_County_Competitors
+m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + factor(Overall_PY_Quartile)
+           + factor(Gender_Place_PY_Quartile) + Travel_Distance + Same_County_Competitors
            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
