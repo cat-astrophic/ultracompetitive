@@ -649,9 +649,9 @@ for i in range(len(compdata)):
             g = compdata.Gender[i] # Get runner gender
             
             temp = compdata[compdata.idvar == raceid] # Subset for race id
-            temp = temp[temp.RACE_Year == yr-1] # Subset for PY race
+            temp = temp[temp.RACE_Year == yr-1].reset_index(drop = True) # Subset for PY race
             temp2 = temp[temp.Runner_ID == runid].reset_index(drop = True) # Subset for runner id
-            temp3 = temp[temp.Gender == g] # Subset for same gender
+            temp3 = temp[temp.Gender == g].reset_index(drop = True) # Subset for same gender
             
             overall_py.append(temp2.Overall[0])
             gender_place_py.append(temp2.Gender_Place[0])
