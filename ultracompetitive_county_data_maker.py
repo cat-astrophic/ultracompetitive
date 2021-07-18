@@ -316,3 +316,4 @@ compdata = pd.concat([compdata, hhinc], axis = 1)
 # Write dataframe to file
 
 compdata.to_csv(filepath + 'output.csv', index = False)
+
