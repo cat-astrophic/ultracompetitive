@@ -313,6 +313,100 @@ for i in range(len(compdata)):
 hhinc = pd.Series(hhinc, name = 'Median_Household_Income')
 compdata = pd.concat([compdata, hhinc], axis = 1)
 
+# Initial education data
+
+ed_cols = ['percentsomehs_', 'percenthsgrad_', 'percentsomecollege_', 'percentassociates_', 'percentbachelors_', 'percentgrad_degree_'] # base of column headings
+
+somehs10 = []
+hs10 = []
+someuni10 = []
+ass10 = []
+bach10 = []
+grad10 = []
+
+for i in range(len(compdata)):
+    
+    print('Education :: ' +  str(i+1) + ' of ' + str(len(compdata)) + '.......') # Visualize progress
+    
+    try:
+        
+        fip = int(compdata.iloc[i]['FIPS']) # Get the location of the event
+        
+        tmp = edu[edu['ï»¿fips'] == fip].reset_index(drop = True) # Subset for location
+        
+        somehs10.append(tmp[ed_cols[0] + str(2010)][0])
+        hs10.append(tmp[ed_cols[1] + str(2010)][0])
+        someuni10.append(tmp[ed_cols[2] + str(2010)][0])
+        ass10.append(tmp[ed_cols[3] + str(2010)][0])
+        bach10.append(tmp[ed_cols[4] + str(2010)][0])
+        grad10.append(tmp[ed_cols[5] + str(2010)][0])
+        
+    except:
+        
+        somehs10.append(None)
+        hs10.append(None)
+        someuni10.append(None)
+        ass10.append(None)
+        bach10.append(None)
+        grad10.append(None)
+
+somehs10 = pd.Series(somehs10, name = 'Some_HS_10')
+hs10 = pd.Series(hs10, name = 'HS_10')
+someuni10 = pd.Series(someuni10, name = 'Some_Uni_10')
+ass10 = pd.Series(ass10, name = 'Associate_10')
+bach10 = pd.Series(bach10, name = 'Bachelor_10')
+grad10 = pd.Series(grad10, name = 'Graduate_10')
+
+compdata = pd.concat([compdata, somehs10, hs10, someuni10, ass10, bach10, grad10], axis = 1)
+
+# Initial unemployment data
+
+unemp10 = []
+
+for i in range(len(compdata)):
+   
+    print('Unemployment :: ' + str(i+1) + ' of ' + str(len(compdata)) + '.......') # Visualize progress
+   
+    try:
+       
+        fip = compdata.iloc[i]['FIPS'] # Get the location of the event
+       
+        tmp = labor[labor['ï»¿fips'] == fip] # Subset for location
+        tmp = tmp[tmp.year == 2010].reset_index(drop = True) # Subset for year
+       
+        unemp10.append(tmp.unemploymentrate[0])
+       
+    except:
+       
+        unemp10.append(None)
+
+unemp10 = pd.Series(unemp10, name = 'Unemployment_Rate_10')
+compdata = pd.concat([compdata, unemp10], axis = 1)
+
+# Initial income data
+
+hhinc10 = []
+
+for i in range(len(compdata)):
+   
+    print('Income :: ' + str(i+1) + ' of ' + str(len(compdata)) + '.......') # Visualize progress
+   
+    try:
+       
+        fip = compdata.iloc[i]['FIPS'] # Get the location of the event
+       
+        tmp = inc[inc['countyid'] == fip] # Subset for location
+        tmp = tmp[tmp['ï»¿year'] == 2010].reset_index(drop = True) # Subset for year
+       
+        hhinc10.append(tmp.medianhouseholdincome[0])
+       
+    except:
+       
+        hhinc10.append(None)
+
+hhinc10 = pd.Series(hhinc10, name = 'Median_Household_Income_10')
+compdata = pd.concat([compdata, hhinc10], axis = 1)
+
 # Write dataframe to file
 
 compdata.to_csv(filepath + 'output.csv', index = False)
