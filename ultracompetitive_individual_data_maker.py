@@ -623,17 +623,13 @@ compdata = pd.concat([compdata, altitude], axis = 1)
 
 # Convert position data to percentiles and quartiles
 # Percentiles range from 100% as first place to -> 0% as last place
-# Quartiles are given by 4 as the fastest quartile and 1 as the slowest quartile
+# Quartiles are given by 1 as the fastest quartile and 4 as the slowest quartile
 
 overall_py = []
 gender_place_py = []
 age_place_py = []
-
-overall_py_percentile = []
-gender_place_py_percentile = []
-
-overall_py_quartile = []
-gender_place_py_quartile = []
+overall_py_max = []
+gender_place_py_max = []
 
 for i in range(len(compdata)):
     
@@ -641,51 +637,96 @@ for i in range(len(compdata)):
     
     if compdata.Raced_PY[i] == 1:
         
+        runid = compdata.Runner_ID[i] # Get next runner id
+        raceid = compdata.idvar[i] # Get next race id
+        yr = compdata.RACE_Year[i] # Get year of event
+        g = compdata.Gender[i] # Get runner gender
+        
+        temp = compdata[compdata.idvar == raceid] # Subset for race id
+        temp = temp[temp.RACE_Year == yr-1].reset_index(drop = True) # Subset for PY race
+        temp2 = temp[temp.Runner_ID == runid].reset_index(drop = True) # Subset for runner id
+        temp3 = temp[temp.Gender == g].reset_index(drop = True) # Subset for same gender
+        
         try:
             
-            runid = compdata.Runner_ID[i] # Get next runner id
-            raceid = compdata.idvar[i] # Get next race id
-            yr = compdata.RACE_Year[i] # Get year of event
-            g = compdata.Gender[i] # Get runner gender
+            gender_place_py_max.append(max(temp3.Gender_Place))
             
-            temp = compdata[compdata.idvar == raceid] # Subset for race id
-            temp = temp[temp.RACE_Year == yr-1].reset_index(drop = True) # Subset for PY race
-            temp2 = temp[temp.Runner_ID == runid].reset_index(drop = True) # Subset for runner id
-            temp3 = temp[temp.Gender == g].reset_index(drop = True) # Subset for same gender
-            
-            overall_py.append(temp2.Overall[0])
-            gender_place_py.append(temp2.Gender_Place[0])
-            age_place_py.append(temp2.Age_Place[0])
-            
-            overall_py_percentile.append(100*(1-((temp2.Overall[0]-1) / max(temp.Overall))))
-            gender_place_py_percentile.append(100*(1-((temp2.Gender_Place[0]-1) / max(temp3.Gender_Place))))
-            
-            overall_py_quartile.append(np.ceil((100*(1-((temp2.Overall[0]-1) / max(temp.Overall))))/25))
-            gender_place_py_quartile.append(np.ceil((100*(1-((temp2.Gender_Place[0]-1) / max(temp3.Gender_Place))))/25))
-        
         except:
             
-            overall_py.append(None)
-            gender_place_py.append(None)
-            age_place_py.append(None)
-            overall_py_percentile.append(None)
-            gender_place_py_percentile.append(None)
-            overall_py_quartile.append(None)
-            gender_place_py_quartile.append(None)
-            
+            gender_place_py_max.append(None)
+        
+        overall_py.append(temp2.Overall[0])
+        gender_place_py.append(temp2.Gender_Place[0])
+        age_place_py.append(temp2.Age_Place[0])
+        overall_py_max.append(max(temp.Overall))
+        
+        
     else:
         
         overall_py.append(None)
         gender_place_py.append(None)
         age_place_py.append(None)
-        overall_py_percentile.append(None)
-        gender_place_py_percentile.append(None)
-        overall_py_quartile.append(None)
-        gender_place_py_quartile.append(None)
+        overall_py_max.append(None)
+        gender_place_py_max.append(None)
+
+def pct(o,om):
+    
+    try:
+        
+        out = 100*o / om
+        
+    except:
+        
+        out = None
+       
+    try:
+        
+        if out > 100 or out < 0:
+            
+            out = None
+            
+    except:
+        
+        pass
+    
+    return out
+
+def quart(o,om):
+    
+    try:
+        
+        out = 100*o / om
+        
+    except:
+        
+        out = None
+        
+    try:
+        
+        if out > 100 or out < 0:
+            
+            out = None
+            
+    except:
+        
+        pass
+        
+    if out != None:
+        
+        out = 5 - np.ceil(out / 25)
+        
+    return out
+
+overall_py_percentile = [pct(overall_py[i],overall_py_max[i]) for i in range(len(overall_py))]
+gender_place_py_percentile = [pct(gender_place_py[i],gender_place_py_max[i]) for i in range(len(gender_place_py))]
+overall_py_quartile = [quart(overall_py[i],overall_py_max[i]) for i in range(len(overall_py))]
+gender_place_py_quartile = [quart(gender_place_py[i],gender_place_py_max[i]) for i in range(len(gender_place_py))]
 
 overall_py = pd.Series(overall_py, name = 'Overall_PY')
 gender_place_py = pd.Series(gender_place_py, name = 'Gender_Place_PY')
 age_place_py = pd.Series(age_place_py, name = 'Age_Place_PY')
+overall_py_max = pd.Series(overall_py, name = 'Overall_PY_MAX')
+gender_place_py_max = pd.Series(gender_place_py_max, name = 'Gender_Place_PY_MAX')
 overall_py_percentile = pd.Series(overall_py_percentile, name = 'Overall_PY_Percentile')
 gender_place_py_percentile = pd.Series(gender_place_py_percentile, name = 'Gender_Place_PY_Percentile')
 overall_py_quartile = pd.Series(overall_py_quartile, name = 'Overall_PY_Quartile')
