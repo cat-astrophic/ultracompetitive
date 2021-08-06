@@ -262,10 +262,6 @@ m72h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
 c72h <- vcovHC(m72h, type = 'HC0')
 rse72h <- sqrt(diag(c72h))
 
-stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m72h,dmod,mod,
-          se = list(rse50k,rse100k,rse50m,rse100m,rset,rse6h,rse12h,rse24h,rse72h,rsed,rsem),
-          type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar'))
-
 # Viewing and saving the results
 
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m72h,dmod,mod,
@@ -285,81 +281,4 @@ write.csv(stargazer(m50k,m100k,m50m,m100m,tmod, se = list(rse50k,rse100k,rse50m,
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod, se = list(rse50k,rse100k,rse50m,rse100m,rset),
                     type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
           paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results.txt', sep = ''), row.names = FALSE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Looking at race type size and gender breakdowns
-
-rr <- unique(compdata$RACE_Distance)
-pctf <- c()
-size <- c()
-count <- c()
-
-
-for (r in rr) {
-  
-  temp <- compdata[which(compdata$RACE_Distance == r),]
-  print(r)
-  print(dim(temp[which(temp$Gender != 'M'),])[1] / dim(temp)[1])
-  pctf <- c(pctf, dim(temp[which(temp$Gender != 'M'),])[1] / dim(temp)[1])
-  count <- c(count, dim(temp)[1])
-  size <- c(size, r)
-  
-}
-
-df <- cbind(size, count, pctf)
-
-# Looking at race size and gender breakdowns
-
-rr2 <- unique(compdata$RACE_Name)
-pctf2 <- c()
-size2 <- c()
-count2 <- c()
-
-
-for (r in rr2) {
-  
-  temp <- compdata[which(compdata$RACE_Name == r),]
-  print(r)
-  print(dim(temp[which(temp$Gender != 'M'),])[1] / dim(temp)[1])
-  pctf2 <- c(pctf2, dim(temp[which(temp$Gender != 'M'),])[1] / dim(temp)[1])
-  count2 <- c(count2, dim(temp)[1])
-  size2 <- c(size2, r)
-  
-}
-
-df2 <- cbind(size2, count2, pctf2)
-
-write.csv(df, 'C:/Users/Michael/Desktop/eventlevel.csv')
-write.csv(df2, 'C:/Users/Michael/Desktop/racelevel.csv')
-
-
-
-
 
