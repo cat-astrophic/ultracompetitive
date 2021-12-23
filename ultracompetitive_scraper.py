@@ -4,6 +4,7 @@
 
 import pandas as pd
 import urllib
+import certifi
 from bs4 import BeautifulSoup as bs
 
 # Specifying the directory for writing data files -- update this as appropriate
@@ -33,12 +34,15 @@ for sex in sexes:
         annum = []
         rank = []
         performance = []
+        rnrname = []
+        country = []
+        group = []
         
         for year in years:
             
             url = url0 + year + url1 + distance + url2 + sex + url3 # Define the url
             page = urllib.request.Request(url, headers = {'User-Agent': 'Mozilla/5.0'})  # Go to the url and get some data 
-            response = urllib.request.urlopen(page) # Go to the url and get some data
+            response = urllib.request.urlopen(page, cafile=certifi.where()) # Go to the url and get some data
             soup = bs(response, 'html.parser') # Go to the url and get some data
             data = soup.find_all('tr') # Get the correct type of data
             data = data[11:len(data)-2] # Pare down to the runner data
@@ -57,6 +61,20 @@ for sex in sexes:
                     id1 = d.find('nowrap="nowrap">') # Identifying the performance
                     id2 = d[39+16:].find('</td>') # Identifying the performance
                     performance.append(d[id1+16:id1+16+id2]) # Time/distance
+                    d = d[id1+16+id2:] # Removing used text
+                    id0 = d.find('getresultperson.php?runner') # Identifying the runner block
+                    d = d[id0+26:] # Removing used text
+                    id1 = d.find('">') # Identifying the runner
+                    id2 = d.find('</a>') # Identifying the runner
+                    rnrname.append(d[id1+2:id2]) # Runner name
+                    d = d[id1+2+id2:] # Removing used text
+                    id1 = d.find('nowrap="nowrap">') # Identifying the country
+                    id2 = d.find('</td>') # Identifying the country
+                    country.append(d[id1+16:id2]) # Country
+                    d = d[id1+id2+40:] # Removing used text
+                    id1 = d.find('nowrap="nowrap">') # Identifying the age group
+                    id2 = d.find('</td>') # Identifying the age group
+                    group.append(d[id1+17:id2]) # Age group
                     annum.append(year) # Race year
                     print(annum[-1])
                     print(rank[-1])
@@ -65,6 +83,9 @@ for sex in sexes:
         annum = pd.Series(annum, name = 'Year')
         rank = pd.Series(rank, name = 'Rank')
         performance = pd.Series(performance, name = 'Performance')
-        df = pd.concat([annum, rank, performance], axis = 1)
+        rnr = pd.Series(rnrname, name = 'Runner')
+        country = pd.Series(country, name = 'Country')
+        group = pd.Series(group, name = 'Group')
+        df = pd.concat([annum, rank, performance, rnr, country, group], axis = 1)
         df.to_csv(filepath + distance + '_' + sex + '.csv', index = False)
 
