@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup as bs
 # Specifying the directory for writing data files -- update this as appropriate
 
 username = ''
-filepath = 'C:/Users/' + username + '/Documents/Data/ultracompetitive/international_data/'
+filepath = 'C:/Users/' + username + '/Documents/Data/ultracompetitive/international_data/raw_data/'
 
 # Defining the components of the url
 
