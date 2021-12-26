@@ -204,7 +204,72 @@ for g in genders:
 bins = pd.Series(bins, name = 'Bin')
 df = pd.concat([df, bins], axis = 1)
 
-# Write df to csv
+# Create pd data for bins
 
-df.to_csv(filepath + 'gap_results/binned_data.csv', index = False)
+print('Creating bin PDs.......')
+
+women = df[df.Gender == 'F'].reset_index(drop = True)
+men = df[df.Gender == 'M'].reset_index(drop = True)
+
+e_list = []
+y_list = []
+b_list = []
+pd_list = []
+
+for y in years:
+    
+    wy = women[women.Year == y]
+    my = men[men.Year == y]
+    
+    for e in events[0:4]:
+        
+        print('                          Year = ' + str(y) + ' ....... Event = ' + e)
+        
+        wye = wy[wy.Event == e]
+        mye = my[my.Event == e]
+        
+        for i in range(1,101):
+            
+            wtmp = wye[wye.Bin == i]
+            mtmp = mye[mye.Bin == i]
+            
+            wval = wtmp.Result.mean()
+            mval = mtmp.Result.mean()
+            pdval = 100*(mval-wval)/mval
+            
+            e_list.append(e)
+            y_list.append(y)
+            b_list.append(i)
+            pd_list.append(pdval)
+            
+    for e in events[4:]:
+        
+        print('                          Year = ' + str(y) + ' ....... Event = ' + e)
+        
+        wye = wy[wy.Event == e]
+        mye = my[my.Event == e]
+        
+        for i in range(1,101):
+            
+            wtmp = wye[wye.Bin == i]
+            mtmp = mye[mye.Bin == i]
+            
+            wval = wtmp.Result.mean()
+            mval = mtmp.Result.mean()
+            pdval = 100*(wval-mval)/mval
+            
+            e_list.append(e)
+            y_list.append(y)
+            b_list.append(i)
+            pd_list.append(pdval)
+            
+el = pd.Series(e_list, name = 'Event')
+yl = pd.Series(y_list, name = 'Year')
+bl = pd.Series(b_list, name = 'Bin')
+pdl = pd.Series(pd_list, name = 'PD')
+bpddf = pd.concat([el, yl, bl, pdl], axis = 1)
+
+# Write bpddf to csv
+
+bpddf.to_csv(filepath + 'gap_results/binned_data.csv', index = False)
 
