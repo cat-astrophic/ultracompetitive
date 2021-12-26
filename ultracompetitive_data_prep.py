@@ -73,7 +73,7 @@ def str_to_time(inp):
         
     return out
 
-# Main loop creating PD data
+# Create data set for creating PD data
 
 print('Creating data.............')
 
@@ -169,4 +169,42 @@ for y in years:
 # Write pddf to csv
 
 pddf.to_csv(filepath + 'gap_results/pd_data.csv', index = False)
+
+# Next create binned data
+
+print('Creating binned data......')
+
+bins = []
+
+for g in genders:
+    
+    dfg = df[df.Gender == g]
+    
+    for y in years:
+        
+        pcut = 0
+        dfgy = dfg[dfg.Year == y]
+        
+        for e in events:
+            
+            print('                          Gender = ' + g + ' ....... Year = ' + str(y) + ' ....... Event = ' + e)
+            
+            tmp = dfgy[dfgy.Event == e].reset_index(drop = True)
+            pcut = 0
+            morebins = []
+            
+            for i in range(100):
+                
+                cutoff = int(np.ceil(((i+1)*len(tmp)/100)))
+                morebins = morebins + [i+1]*(cutoff-pcut)
+                pcut = cutoff
+                
+            bins = bins + morebins
+            
+bins = pd.Series(bins, name = 'Bin')
+df = pd.concat([df, bins], axis = 1)
+
+# Write df to csv
+
+df.to_csv(filepath + 'gap_results/binned_data.csv', index = False)
 
