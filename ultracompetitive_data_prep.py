@@ -235,7 +235,7 @@ for y in years:
             
             wval = wtmp.Result.mean()
             mval = mtmp.Result.mean()
-            pdval = 100*(mval-wval)/mval
+            pdval = 100*(wval-mval)/mval
             
             e_list.append(e)
             y_list.append(y)
@@ -256,7 +256,7 @@ for y in years:
             
             wval = wtmp.Result.mean()
             mval = mtmp.Result.mean()
-            pdval = 100*(wval-mval)/mval
+            pdval = 100*(mval-wval)/mval
             
             e_list.append(e)
             y_list.append(y)
