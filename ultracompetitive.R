@@ -8,13 +8,13 @@ library(progress)
 library(sjmisc)
 library(modelsummary)
 
-# Specifying your username
+# Project directory info
 
-username <- 'Michael'
+direc <- 'D:/ultracompetitive/'
 
 # Reading in the data
 
-compdata <- read.csv(paste('C:/Users/', username, '/Documents/Data/ultracompetitive/output.csv', sep = ''))
+compdata <- read.csv(paste(direc, 'output.csv', sep = ''))
 
 # Drop people who did very poorly in one year or the other in fixed time events
 
@@ -277,11 +277,11 @@ m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_noFE_tex.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_noFE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_noFE.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_noFE.txt', sep = ''), row.names = FALSE)
 
 # Running regressions with state fixed effects
 
@@ -419,11 +419,11 @@ m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_stateFE_tex.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_stateFE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_stateFE.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_stateFE.txt', sep = ''), row.names = FALSE)
 
 # Running regressions with census region fixed effects
 
@@ -561,11 +561,11 @@ m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_regionFE_tex.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_regionFE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
                     type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste('C:/Users/', username, '/Documents/Data/ultracompetitive/results_regionFE.txt', sep = ''), row.names = FALSE)
+          paste(direc, 'results_regionFE.txt', sep = ''), row.names = FALSE)
 
 # Creating summary statistics
 
