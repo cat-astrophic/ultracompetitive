@@ -371,16 +371,16 @@ for y in range(2005,2021):
     w6d_sizes.append(len(w6d[w6d.Year == y]))
     m6d_sizes.append(len(m6d[m6d.Year == y]))
 
-rat_50k = [w50k_sizes[i] / m50k_sizes[i] for i in range(len(years))]
-rat_50m = [w50m_sizes[i] / m50m_sizes[i] for i in range(len(years))]
-rat_100k = [w100k_sizes[i] / m100k_sizes[i] for i in range(len(years))]
-rat_100m = [w100m_sizes[i] / m100m_sizes[i] for i in range(len(years))]
+rat_50k = [m50k_sizes[i] / w50k_sizes[i] for i in range(len(years))]
+rat_50m = [m50m_sizes[i] / w50m_sizes[i] for i in range(len(years))]
+rat_100k = [m100k_sizes[i] / w100k_sizes[i] for i in range(len(years))]
+rat_100m = [m100m_sizes[i] / w100m_sizes[i] for i in range(len(years))]
 
-rat_6h = [w6h_sizes[i] / m6h_sizes[i] for i in range(len(years))]
-rat_12h = [w12h_sizes[i] / m12h_sizes[i] for i in range(len(years))]
-rat_24h = [w24h_sizes[i] / m24h_sizes[i] for i in range(len(years))]
-rat_48h = [w48h_sizes[i] / m48h_sizes[i] for i in range(len(years))]
-rat_6d = [w6d_sizes[i] / m6d_sizes[i] for i in range(len(years))]
+rat_6h = [m6h_sizes[i] / w6h_sizes[i] for i in range(len(years))]
+rat_12h = [m12h_sizes[i] / w12h_sizes[i] for i in range(len(years))]
+rat_24h = [m24h_sizes[i] / w24h_sizes[i] for i in range(len(years))]
+rat_48h = [m48h_sizes[i] / w48h_sizes[i] for i in range(len(years))]
+rat_6d = [m6d_sizes[i] / w6d_sizes[i] for i in range(len(years))]
 
 fig = plt.figure(figsize = (10, 6), dpi = 300)
 plt.plot(years, rat_50k)
@@ -388,10 +388,10 @@ plt.plot(years, rat_50m)
 plt.plot(years, rat_100k)
 plt.plot(years, rat_100m)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
-plt.title('Gender Ratios (F/M) for Time-Based Events')
+plt.title('Gender Ratios (M/F) for Time-Based Events')
 plt.ylabel('Year')
 plt.xlabel('Ratio')
-plt.ylim(0,1.1)
+plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
 
 fig = plt.figure(figsize = (10, 6), dpi = 300)
@@ -401,13 +401,11 @@ plt.plot(years, rat_24h)
 plt.plot(years, rat_48h)
 plt.plot(years, rat_6d)
 plt.legend(['6 hr', '12 hr', '24 hr', '48 hr', '6 days'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
-plt.title('Gender Ratios (F/M) for Distance-Based Events')
+plt.title('Gender Ratios (M/F) for Distance-Based Events')
 plt.ylabel('Year')
 plt.xlabel('Ratio')
-plt.ylim(0,1.1)
+plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
-
-### Do analyses for all data; data minus repeat performances; same two but by age groups for 4 total analyses
 
 ### Then redo this using the US data set -- use the Brazos Bend events + the 12:21 time as an example (+WS!)
 ### of the incompleteness of the DUV data set, and that if women are less likely to attend the mega-events
