@@ -747,81 +747,75 @@ ggplot(data = sim.df2, aes(Values, fill = Gender)) +
 
 # A simulation for the paper using place with a more accurate sampling component
 
-f.data3 <- c()
-f.data3.2 <- c()
-f.data3.5 <- c()
-f.data3.10 <- c()
-f.data3.20 <- c()
-
 m.data3 <- c()
+m.data3.2 <- c()
+m.data3.3 <- c()
+m.data3.4 <- c()
+m.data3.5 <- c()
+
+f.data3 <- c()
 
 sim.data3 <- c()
 sim.data3.2 <- c()
+sim.data3.3 <- c()
+sim.data3.4 <- c()
 sim.data3.5 <- c()
-sim.data3.10 <- c()
-sim.data3.20 <- c()
 
 for (it in 1:1000) {
 
   print(it)
 
-  DM3 <- rnorm(10000, mean = 100, sd = 10)
-  DF3 <- rnorm(10000, mean = 105, sd = 10)
-
-  DM3 <- sort(DM3, decreasing = FALSE)
-  DF3 <- sort(DF3, decreasing = FALSE)
-
-  DMX3 <- DM3[1:500]
-  DFX3.2 <- sample(DF3[1:1000], 500)
-  DFX3.5 <- sample(DF3[1:2500], 500)
-  DFX3.10 <- sample(DF3[1:5000], 500)
-  DFX3.20 <- sample(DF3[1:10000], 500)
-  DFX3 <- DF3[1:500]
-
-  sorted.dm3 <- sort(DMX3, decreasing = FALSE)
-  sorted.df3 <- sort(DFX3, decreasing = FALSE)
-  sorted.df3.2 <- sort(DFX3.2, decreasing = FALSE)
-  sorted.df3.5 <- sort(DFX3.5, decreasing = FALSE)
-  sorted.df3.10 <- sort(DFX3.10, decreasing = FALSE)
-  sorted.df3.20 <- sort(DFX3.20, decreasing = FALSE)
-
-  f.data3 <- c(f.data3, DFX3)
-  f.data3.2 <- c(f.data3.2, DFX3.2)
-  f.data3.5 <- c(f.data3.5, DFX3.5)
-  f.data3.10 <- c(f.data3.10, DFX3.10)
-  f.data3.20 <- c(f.data3.20, DFX3.20)
+  DF3 <- rnorm(500, mean = 105, sd = 10)
+  DM3 <- rnorm(500, mean = 100, sd = 10)
+  DM3.2 <- rnorm(1000, mean = 100, sd = 10)
+  DM3.3 <- rnorm(1500, mean = 100, sd = 10)
+  DM3.4 <- rnorm(2000, mean = 100, sd = 10)
+  DM3.5 <- rnorm(2500, mean = 100, sd = 10)
+  
+  DFX3 <- sort(DF3, decreasing = FALSE)[1:500]
+  DMX3 <- sort(DM3, decreasing = FALSE)[1:500]
+  DMX3.2 <- sort(DM3.2, decreasing = FALSE)[1:500]
+  DMX3.3 <- sort(DM3.3, decreasing = FALSE)[1:500]
+  DMX3.4 <- sort(DM3.4, decreasing = FALSE)[1:500]
+  DMX3.5 <- sort(DM3.5, decreasing = FALSE)[1:500]
+  
   m.data3 <- c(m.data3, DMX3)
+  m.data3.2 <- c(m.data3.2, DMX3.2)
+  m.data3.3 <- c(m.data3.3, DMX3.3)
+  m.data3.4 <- c(m.data3.4, DMX3.4)
+  m.data3.5 <- c(m.data3.5, DMX3.5)
+  f.data3 <- c(f.data3, DFX3)
 
-  pct.diff <- 100*(sorted.df3 - sorted.dm3) / sorted.dm3
-  pct.diff.2 <- 100*(sorted.df3.2 - sorted.dm3) / sorted.dm3
-  pct.diff.5 <- 100*(sorted.df3.5 - sorted.dm3) / sorted.dm3
-  pct.diff.10 <- 100*(sorted.df3.10 - sorted.dm3) / sorted.dm3
-  pct.diff.20 <- 100*(sorted.df3.20 - sorted.dm3) / sorted.dm3
+  pct.diff <- 100*(DFX3 - DMX3) / DMX3
+  pct.diff.2 <- 100*(DFX3 - DMX3.2) / DMX3.2
+  pct.diff.3 <- 100*(DFX3 - DMX3.3) / DMX3.3
+  pct.diff.4 <- 100*(DFX3 - DMX3.4) / DMX3.4
+  pct.diff.5 <- 100*(DFX3 - DMX3.5) / DMX3.5
 
   sim.data3 <- cbind(sim.data3, pct.diff)
   sim.data3.2 <- cbind(sim.data3.2, pct.diff.2)
+  sim.data3.3 <- cbind(sim.data3.3, pct.diff.3)
+  sim.data3.4 <- cbind(sim.data3.4, pct.diff.4)
   sim.data3.5 <- cbind(sim.data3.5, pct.diff.5)
-  sim.data3.10 <- cbind(sim.data3.10, pct.diff.10)
-  sim.data3.20 <- cbind(sim.data3.20, pct.diff.20)
 
 }
 
 plot.df3 <- as.data.frame(cbind(1:500, rowMeans(sim.data3), apply(sim.data3, 1, sd)))
 plot.df3.2 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.2), apply(sim.data3.2, 1, sd)))
+plot.df3.3 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.3), apply(sim.data3.3, 1, sd)))
+plot.df3.4 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.4), apply(sim.data3.4, 1, sd)))
 plot.df3.5 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.5), apply(sim.data3.5, 1, sd)))
-plot.df3.10 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.10), apply(sim.data3.10, 1, sd)))
-plot.df3.20 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.20), apply(sim.data3.20, 1, sd)))
 
 names(plot.df3) <- c('X', 'Mean', 'SD')
 names(plot.df3.2) <- c('X', 'Mean', 'SD')
+names(plot.df3.3) <- c('X', 'Mean', 'SD')
+names(plot.df3.4) <- c('X', 'Mean', 'SD')
 names(plot.df3.5) <- c('X', 'Mean', 'SD')
-names(plot.df3.10) <- c('X', 'Mean', 'SD')
-names(plot.df3.20) <- c('X', 'Mean', 'SD')
 
-combo.df <- as.data.frame(cbind(plot.df3$X, plot.df3$Mean, plot.df3.2$Mean, plot.df3.5$Mean, plot.df3.10$Mean, plot.df3.20$Mean, plot.df3$SD, plot.df3.2$SD, plot.df3.5$SD, plot.df3.10$SD, plot.df3.20$SD))
-colnames(combo.df) <- c('X', 'R1', 'R2', 'R5', 'R10', 'R20', 'SD1', 'SD2', 'SD5', 'SD10', 'SD20')
+combo.df <- as.data.frame(cbind(plot.df3$X, plot.df3$Mean, plot.df3.2$Mean, plot.df3.3$Mean, plot.df3.4$Mean, plot.df3.5$Mean, plot.df3$SD, plot.df3.2$SD, plot.df3.3$SD, plot.df3.4$SD, plot.df3.5$SD))
+colnames(combo.df) <- c('X', 'R1', 'R2', 'R3', 'R4', 'R5', 'SD1', 'SD2', 'SD3', 'SD4', 'SD5')
 
-ggplot(data = combo.df, aes(x = X, y = R2)) +
+ggplot(data = combo.df, aes(x = X, y = R1)) +
   theme_bw() +
   ggtitle('Percent Difference between Women and Men by Place') +
   ylab('Percent Difference') +
@@ -829,16 +823,17 @@ ggplot(data = combo.df, aes(x = X, y = R2)) +
   geom_hline(yintercept = 5, color = 'black', linetype = 1) +
   geom_line(aes(y = R1, col = '1'), size = 1, alpha = 0.1) +
   geom_line(aes(y = R2, col = '2'), size = 1, alpha = 0.1) +
+  geom_line(aes(y = R3, col = '3'), size = 1, alpha = 0.1) +
+  geom_line(aes(y = R4, col = '4'), size = 1, alpha = 0.1) +
   geom_line(aes(y = R5, col = '5'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R10, col = '10'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R20, col = '20'), size = 1, alpha = 0.1) +
-  geom_ribbon(aes(ymin = R1 - 2*SD1, ymax = R1 + 2*SD1), size = 1, alpha = .333, fill = 'red4') +
+  geom_ribbon(aes(ymin = R1 - 2*SD1, ymax = R1 + 2*SD1), size = 1, alpha = .333, fill = 'red') +
   geom_ribbon(aes(ymin = R2 - 2*SD2, ymax = R2 + 2*SD2), size = 1, alpha = .333, fill = 'orange') +
-  geom_ribbon(aes(ymin = R5 - 2*SD5, ymax = R5 + 2*SD5), size = 1, alpha = .333, fill = 'green') +
-  geom_ribbon(aes(ymin = R10 - 2*SD10, ymax = R10 + 2*SD10), size = 1, alpha = .333, fill = 'blue') +
-  geom_ribbon(aes(ymin = R20 - 2*SD20, ymax = R20 + 2*SD20), size = 1, alpha = .333, fill = 'purple') +
+  geom_ribbon(aes(ymin = R3 - 2*SD3, ymax = R3 + 2*SD3), size = 1, alpha = .333, fill = 'green') +
+  geom_ribbon(aes(ymin = R4 - 2*SD4, ymax = R4 + 2*SD4), size = 1, alpha = .333, fill = 'blue') +
+  geom_ribbon(aes(ymin = R5 - 2*SD5, ymax = R5 + 2*SD5), size = 1, alpha = .333, fill = 'purple') +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '5', '10', '20'),
-                     values = c('1' = 'red4', '2' = 'orange', '5' = 'green', '10' = 'blue', '20' = 'purple'))
-scale_x_continuous(breaks = c(1, seq(50, 500, 50)), labels = c(1, seq(50, 500, 50)))
+  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5'),
+                     values = c('1' = 'red', '2' = 'orange', '3' = 'green', '4' = 'blue', '5' = 'purple')) + 
+  scale_x_continuous(breaks = c(1, seq(50, 500, 50)), labels = c(1, seq(50, 500, 50))) + 
+  scale_y_continuous(breaks = seq(-10, 60, 10), labels = seq(-10, 60, 10))
 
