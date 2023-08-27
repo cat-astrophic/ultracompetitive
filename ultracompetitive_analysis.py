@@ -215,7 +215,9 @@ df6d.to_csv(filepath + 'pd_data/pd_6d.csv', index = False)
 
 # Creating figures to show the evolution over time of the PD values
 
-blah = [2005,2009,2013,2017]
+blah = [2005, 2007, 2009, 2011, 2013, 2015, 2017, 2019]
+places = [1, 50, 100, 150, 200, 250, 300, 350, 400, 450 ,500]
+colors = ['black', 'purple', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
 
 # 50km
 
@@ -223,19 +225,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df50k[df50k.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
-
-# 50km #2
-
-fig = plt.figure(figsize = (10, 6), dpi = 300)
-
-for year in [2017]:
-    
-    tmp = df50k[df50k.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend([2017])
+    tmp = df50k[df50k.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 50 km')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 100km
 
@@ -243,19 +241,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df100k[df100k.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
-
-# 100km #2
-
-fig = plt.figure(figsize = (10, 6), dpi = 300)
-
-for year in [2017]:
-    
-    tmp = df100k[df100k.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend([2017])
+    tmp = df100k[df100k.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 100 km')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 50mi
 
@@ -263,9 +257,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df50m[df50m.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df50m[df50m.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 50 mile')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 100mi
 
@@ -273,9 +273,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df100m[df100m.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df100m[df100m.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 100 mile')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 6hr
 
@@ -283,9 +289,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df6h[df6h.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df6h[df6h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 6 hour')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 12hr
 
@@ -293,9 +305,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df12h[df12h.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df12h[df12h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 12 hour')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 24hr
 
@@ -303,9 +321,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df24h[df24h.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df24h[df24h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 24 hour')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 48hr
 
@@ -313,9 +337,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df48h[df48h.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df48h[df48h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 48 hour')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # 6d
 
@@ -323,9 +353,15 @@ fig = plt.figure(figsize = (10, 6), dpi = 300)
 
 for year in blah:
     
-    tmp = df6d[df6d.Year == year]['PD']
-    plt.plot(tmp)
-    plt.legend(blah)
+    tmp = df6d[df6d.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 6 day')
+    plt.xlabel('Year')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
 
 # Plotting the change in gender sample sizes over time
 
@@ -406,6 +442,33 @@ plt.ylabel('Year')
 plt.xlabel('Ratio')
 plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+plt.plot(years, m50k_sizes)
+plt.plot(years, m50m_sizes)
+plt.plot(years, m100k_sizes)
+plt.plot(years, m100m_sizes)
+plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
+plt.title('Number of Male Runners for Time-Based Events')
+plt.ylabel('Year')
+plt.xlabel('Count')
+#plt.ylim(0,7)
+plt.xticks(years, years, rotation = 45)
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+plt.plot(years, w50k_sizes)
+plt.plot(years, w50m_sizes)
+plt.plot(years, w100k_sizes)
+plt.plot(years, w100m_sizes)
+plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
+plt.title('Number of Female Runners for Time-Based Events')
+plt.ylabel('Year')
+plt.xlabel('Count')
+#plt.ylim(0,7)
+plt.xticks(years, years, rotation = 45)
+
+
+
 
 ### Then redo this using the US data set -- use the Brazos Bend events + the 12:21 time as an example (+WS!)
 ### of the incompleteness of the DUV data set, and that if women are less likely to attend the mega-events
