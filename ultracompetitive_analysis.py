@@ -425,7 +425,7 @@ plt.plot(years, rat_100k)
 plt.plot(years, rat_100m)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Gender Ratios (M/F) for Time-Based Events')
-plt.ylabel('Year')
+plt.ylabel('Rank')
 plt.xlabel('Ratio')
 plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -438,7 +438,7 @@ plt.plot(years, rat_48h)
 plt.plot(years, rat_6d)
 plt.legend(['6 hr', '12 hr', '24 hr', '48 hr', '6 days'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Gender Ratios (M/F) for Distance-Based Events')
-plt.ylabel('Year')
+plt.ylabel('Rank')
 plt.xlabel('Ratio')
 plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -450,7 +450,7 @@ plt.plot(years, m100k_sizes)
 plt.plot(years, m100m_sizes)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Number of Male Runners for Time-Based Events')
-plt.ylabel('Year')
+plt.ylabel('Rank')
 plt.xlabel('Count')
 #plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -462,22 +462,266 @@ plt.plot(years, w100k_sizes)
 plt.plot(years, w100m_sizes)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Number of Female Runners for Time-Based Events')
-plt.ylabel('Year')
+plt.ylabel('Rank')
 plt.xlabel('Count')
 #plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
 
+# Repeating one of the above analyses using the good data set
 
+dt = pd.read_csv(filepath[:-19] + 'output.csv')
 
+dt50k = dt[dt.RACE_Distance == '50 KM'].reset_index(drop = True)
+dt50m = dt[dt.RACE_Distance == '50 Miles'].reset_index(drop = True)
+dt100k = dt[dt.RACE_Distance == '100 KM'].reset_index(drop = True)
+dt100m = dt[dt.RACE_Distance == '100 Miles'].reset_index(drop = True)
+
+dt6h = dt[dt.RACE_Distance == '6 Hours'].reset_index(drop = True)
+dt12h = dt[dt.RACE_Distance == '12 Hours'].reset_index(drop = True)
+dt24h = dt[dt.RACE_Distance == '24 Hours'].reset_index(drop = True)
+dt48h = dt[dt.RACE_Distance == '48 Hours'].reset_index(drop = True)
+dt6d = dt[dt.RACE_Distance == '144 Hours'].reset_index(drop = True)
+
+dt50k = dt50k.sort_values(by = 'Seconds').reset_index(drop = True)
+dt50m = dt50m.sort_values(by = 'Seconds').reset_index(drop = True)
+dt100k = dt100k.sort_values(by = 'Seconds').reset_index(drop = True)
+dt100m = dt100m.sort_values(by = 'Seconds').reset_index(drop = True)
+
+dt50km = dt50k[dt50k.Gender == 'M'].reset_index(drop = True)
+dt50kw = dt50k[dt50k.Gender == 'F'].reset_index(drop = True)
+
+dt50mm = dt50m[dt50m.Gender == 'M'].reset_index(drop = True)
+dt50mw = dt50m[dt50m.Gender == 'F'].reset_index(drop = True)
+
+dt100km = dt100k[dt100k.Gender == 'M'].reset_index(drop = True)
+dt100kw = dt100k[dt100k.Gender == 'F'].reset_index(drop = True)
+
+dt100mm = dt100m[dt100m.Gender == 'M'].reset_index(drop = True)
+dt100mw = dt100m[dt100m.Gender == 'F'].reset_index(drop = True)
+
+dt6hm = dt6h[dt6h.Gender == 'M'].reset_index(drop = True)
+dt6hw = dt6h[dt6h.Gender == 'F'].reset_index(drop = True)
+
+dt12hm = dt12h[dt12h.Gender == 'M'].reset_index(drop = True)
+dt12hw = dt12h[dt12h.Gender == 'F'].reset_index(drop = True)
+
+dt24hm = dt24h[dt24h.Gender == 'M'].reset_index(drop = True)
+dt24hw = dt24h[dt24h.Gender == 'F'].reset_index(drop = True)
+
+dt48hm = dt48h[dt48h.Gender == 'M'].reset_index(drop = True)
+dt48hw = dt48h[dt48h.Gender == 'F'].reset_index(drop = True)
+
+dt6dm = dt6d[dt6d.Gender == 'M'].reset_index(drop = True)
+dt6dw = dt6d[dt6d.Gender == 'F'].reset_index(drop = True)
+
+y50k = []
+r50k = []
+v50k = []
+
+y50m = []
+r50m = []
+v50m = []
+
+y100k = []
+r100k = []
+v100k = []
+
+y100m = []
+r100m = []
+v100m = []
+
+y6h = []
+r6h = []
+v6h = []
+
+y12h = []
+r12h = []
+v12h = []
+
+y24h = []
+r24h = []
+v24h = []
+
+y48h = []
+r48h = []
+v48h = []
+
+y6d = []
+r6d = []
+v6d = []
+
+for year in years:
+    
+    xdt50km = dt50km[dt50km.RACE_Year == year].reset_index(drop = True)
+    xdt50kw = dt50kw[dt50kw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt50mm = dt50mm[dt50mm.RACE_Year == year].reset_index(drop = True)
+    xdt50mw = dt50mw[dt50mw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt100km = dt100km[dt100km.RACE_Year == year].reset_index(drop = True)
+    xdt100kw = dt100kw[dt100kw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt100mm = dt100mm[dt100mm.RACE_Year == year].reset_index(drop = True)
+    xdt100mw = dt100mw[dt100mw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt6hm = dt6hm[dt6hm.RACE_Year == year].reset_index(drop = True)
+    xdt6hw = dt6hw[dt6hw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt12hm = dt12hm[dt12hm.RACE_Year == year].reset_index(drop = True)
+    xdt12hw = dt12hw[dt12hw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt24hm = dt24hm[dt24hm.RACE_Year == year].reset_index(drop = True)
+    xdt24hw = dt24hw[dt24hw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt48hm = dt48hm[dt48hm.RACE_Year == year].reset_index(drop = True)
+    xdt48hw = dt48hw[dt48hw.RACE_Year == year].reset_index(drop = True)
+    
+    xdt6dm = dt6dm[dt6dm.RACE_Year == year].reset_index(drop = True)
+    xdt6dw = dt6dw[dt6dw.RACE_Year == year].reset_index(drop = True)
+    
+    v50k += [100*(xdt50kw.Seconds[i] - xdt50km.Seconds[i])/xdt50km.Seconds[i] for i in range(min(len(xdt50kw), len(xdt50km)))]
+    v50m += [100*(xdt50mw.Seconds[i] - xdt50mm.Seconds[i])/xdt50mm.Seconds[i] for i in range(min(len(xdt50mw), len(xdt50mm)))]
+    v100k += [100*(xdt100kw.Seconds[i] - xdt100km.Seconds[i])/xdt100km.Seconds[i] for i in range(min(len(xdt100kw), len(xdt100km)))]
+    v100m += [100*(xdt100mw.Seconds[i] - xdt100mm.Seconds[i])/xdt100mm.Seconds[i] for i in range(min(len(xdt100mw), len(xdt100mm)))]
+    
+    v6h += [100*(xdt6hw.Distance[i] - xdt6hm.Distance[i])/xdt6hm.Distance[i] for i in range(min(len(xdt6hw), len(xdt6hm)))]
+    v12h += [100*(xdt12hw.Distance[i] - xdt12hm.Distance[i])/xdt12hm.Distance[i] for i in range(min(len(xdt12hw), len(xdt12hm)))]
+    v24h += [100*(xdt24hw.Distance[i] - xdt24hm.Distance[i])/xdt24hm.Distance[i] for i in range(min(len(xdt24hw), len(xdt24hm)))]
+    v48h += [100*(xdt48hw.Distance[i] - xdt48hm.Distance[i])/xdt48hm.Distance[i] for i in range(min(len(xdt48hw), len(xdt48hm)))]
+    v6d += [100*(xdt6dw.Distance[i] - xdt6dm.Distance[i])/xdt6dm.Distance[i] for i in range(min(len(xdt6dw), len(xdt6dm)))]
+    
+    r50k += [i+1 for i in range(min(len(xdt50km), len(xdt50kw)))]
+    r50m += [i+1 for i in range(min(len(xdt50mm), len(xdt50mw)))]
+    r100k += [i+1 for i in range(min(len(xdt100km), len(xdt100kw)))]
+    r100m += [i+1 for i in range(min(len(xdt100mm), len(xdt100mw)))]
+    
+    r6h += [i+1 for i in range(min(len(xdt6hm), len(xdt6hw)))]
+    r12h += [i+1 for i in range(min(len(xdt12hm), len(xdt12hw)))]
+    r24h += [i+1 for i in range(min(len(xdt24hm), len(xdt24hw)))]
+    r48h += [i+1 for i in range(min(len(xdt48hm), len(xdt48hw)))]
+    r6d += [i+1 for i in range(min(len(xdt6dm), len(xdt6dw)))]
+    
+    y50k += [year]*min(len(xdt50km), len(xdt50kw))
+    y50m += [year]*min(len(xdt50mm), len(xdt50mw))
+    y100k += [year]*min(len(xdt100km), len(xdt100kw))
+    y100m += [year]*min(len(xdt100mm), len(xdt100mw))
+    
+    y6h += [year]*min(len(xdt6hm), len(xdt6hw))
+    y12h += [year]*min(len(xdt12hm), len(xdt12hw))
+    y24h += [year]*min(len(xdt24hm), len(xdt24hw))
+    y48h += [year]*min(len(xdt48hm), len(xdt48hw))
+    y6d += [year]*min(len(xdt6dm), len(xdt6dw))
+
+y50k = pd.Series(y50k, name = 'Year')
+y50m = pd.Series(y50m, name = 'Year')
+y100k = pd.Series(y100k, name = 'Year')
+y100m = pd.Series(y100m, name = 'Year')
+y6h = pd.Series(y6h, name = 'Year')
+y12h = pd.Series(y12h, name = 'Year')
+y24h = pd.Series(y24h, name = 'Year')
+y48h = pd.Series(y48h, name = 'Year')
+y6d = pd.Series(y6d, name = 'Year')
+
+r50k = pd.Series(r50k, name = 'Rank')
+r50m = pd.Series(r50m, name = 'Rank')
+r100k = pd.Series(r100k, name = 'Rank')
+r100m = pd.Series(r100m, name = 'Rank')
+r6h = pd.Series(r6h, name = 'Rank')
+r12h = pd.Series(r12h, name = 'Rank')
+r24h = pd.Series(r24h, name = 'Rank')
+r48h = pd.Series(r48h, name = 'Rank')
+r6d = pd.Series(r6d, name = 'Rank')
+
+v50k = pd.Series(v50k, name = 'PD')
+v50m = pd.Series(v50m, name = 'PD')
+v100k = pd.Series(v100k, name = 'PD')
+v100m = pd.Series(v100m, name = 'PD')
+v6h = pd.Series(v6h, name = 'PD')
+v12h = pd.Series(v12h, name = 'PD')
+v24h = pd.Series(v24h, name = 'PD')
+v48h = pd.Series(v48h, name = 'PD')
+v6d = pd.Series(v6d, name = 'PD')
+
+ddt50k = pd.concat([y50k, r50k, v50k], axis = 1)
+ddt50m = pd.concat([y50m, r50m, v50m], axis = 1)
+ddt100k = pd.concat([y100k, r100k, v100k], axis = 1)
+ddt100m = pd.concat([y100m, r100m, v100m], axis = 1)
+
+ddt6h = pd.concat([y6h, r6h, v6h], axis = 1)
+ddt12h = pd.concat([y12h, r12h, v12h], axis = 1)
+ddt24h = pd.concat([y24h, r24h, v24h], axis = 1)
+ddt48h = pd.concat([y48h, r48h, v48h], axis = 1)
+ddt6d = pd.concat([y6d, r6d, v6d], axis = 1)
+
+blah = [i for i in range(2011,2020)]
+colors = ['black', 'grey', 'purple', 'blue', 'green', 'yellow', 'orange', 'red', 'pink']
+
+# 50km
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt50k[ddt50k.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 50 km')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    plt.ylim(0,50)
+    plt.xticks(places, places)
+
+# 100km
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt100k[ddt100k.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 100 km')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,60)
+    plt.xticks(places, places)
+
+# 50mi
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt50m[ddt50m.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 50 mile')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 100mi
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt100m[ddt100m.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 100 mile')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
 
 ### Then redo this using the US data set -- use the Brazos Bend events + the 12:21 time as an example (+WS!)
 ### of the incompleteness of the DUV data set, and that if women are less likely to attend the mega-events
-### (in Frick he states that ~55% of top times come from 4 events) then this would bias the results
-### The US data set should avoid this issue because it is significantly more complete ...
-### ... create a summary statistic showing how many performances in the US data set are better than the
-### say 500th or 1000th time in the DUV data set, then see how many of these are included
-### What about other countries?! Definitely missing critical observations -- what is the breakdwon by
-### gender for this summary statistic??? THIS MOTIVATES THE BETTER DATA SET!!!
-### But still use the DUV data set to replicate Frick and show that the gap is closing over time, even
-### for the poorer data set!
+### (in F2011JSE he states that ~55% of top times come from 4 events) then this would bias the results
+### The US data set should avoid this issue because it is significantly more comprehensive ...
 
