@@ -644,25 +644,20 @@ ammar.1 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank == 25),])
 ammar.2 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank2 == 25),])
 ammar.3 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank <= 25),])
 
-apd800.1 <- lm(Seconds ~ Time, data = w8pd[which(w8pd$Rank == 25),])
-apd800.2 <- lm(Seconds ~ Time, data = w8pd[which(w8pd$Rank2 == 25),])
-apd800.3 <- lm(Seconds ~ Time, data = w8pd[which(w8pd$Rank <= 25),])
+apd800.1 <- lm(PD ~ Time, data = w8pd[which(w8pd$Rank == 25),])
+apd800.2 <- lm(PD ~ Time, data = w8pd[which(w8pd$Rank <= 25),])
 
-apd1500.1 <- lm(Seconds ~ Time, data = w15pd[which(w15pd$Rank == 25),])
-apd1500.2 <- lm(Seconds ~ Time, data = w15pd[which(w15pd$Rank2 == 25),])
-apd1500.3 <- lm(Seconds ~ Time, data = w15pd[which(w15pd$Rank <= 25),])
+apd1500.1 <- lm(PD ~ Time, data = w15pd[which(w15pd$Rank == 25),])
+apd1500.2 <- lm(PD ~ Time, data = w15pd[which(w15pd$Rank <= 25),])
 
-apd5000.1 <- lm(Seconds ~ Time, data = w5pd[which(w5pd$Rank == 25),])
-apd5000.2 <- lm(Seconds ~ Time, data = w5pd[which(w5pd$Rank2 == 25),])
-apd5000.3 <- lm(Seconds ~ Time, data = w5pd[which(w5pd$Rank <= 25),])
+apd5000.1 <- lm(PD ~ Time, data = w5pd[which(w5pd$Rank == 25),])
+apd5000.2 <- lm(PD ~ Time, data = w5pd[which(w5pd$Rank <= 25),])
 
-apd10000.1 <- lm(Seconds ~ Time, data = w10pd[which(w10pd$Rank == 25),])
-apd10000.2 <- lm(Seconds ~ Time, data = w10pd[which(w10pd$Rank2 == 25),])
-apd10000.3 <- lm(Seconds ~ Time, data = w10pd[which(w10pd$Rank <= 25),])
+apd10000.1 <- lm(PD ~ Time, data = w10pd[which(w10pd$Rank == 25),])
+apd10000.2 <- lm(PD ~ Time, data = w10pd[which(w10pd$Rank <= 25),])
 
-apdmar.1 <- lm(Seconds ~ Time, data = wmarpd[which(wmarpd$Rank == 25),])
-apdmar.2 <- lm(Seconds ~ Time, data = wmarpd[which(wmarpd$Rank2 == 25),])
-apdmar.3 <- lm(Seconds ~ Time, data = wmarpd[which(wmarpd$Rank <= 25),])
+apdmar.1 <- lm(PD ~ Time, data = wmarpd[which(wmarpd$Rank == 25),])
+apdmar.2 <- lm(PD ~ Time, data = wmarpd[which(wmarpd$Rank <= 25),])
 
 # Expanding to the sprints
 
@@ -690,17 +685,14 @@ am400.1 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank == 25),])
 am400.2 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank2 == 25),])
 am400.3 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank <= 25),])
 
-apd100.1 <- lm(Seconds ~ Time, data = w1pd[which(w1pd$Rank == 25),])
-apd100.2 <- lm(Seconds ~ Time, data = w1pd[which(w1pd$Rank2 == 25),])
-apd100.3 <- lm(Seconds ~ Time, data = w1pd[which(w1pd$Rank <= 25),])
+apd100.1 <- lm(PD ~ Time, data = w1pd[which(w1pd$Rank == 25),])
+apd100.2 <- lm(PD ~ Time, data = w1pd[which(w1pd$Rank <= 25),])
 
-apd200.1 <- lm(Seconds ~ Time, data = w2pd[which(w2pd$Rank == 25),])
-apd200.2 <- lm(Seconds ~ Time, data = w2pd[which(w2pd$Rank2 == 25),])
-apd200.3 <- lm(Seconds ~ Time, data = w2pd[which(w2pd$Rank <= 25),])
+apd200.1 <- lm(PD ~ Time, data = w2pd[which(w2pd$Rank == 25),])
+apd200.2 <- lm(PD ~ Time, data = w2pd[which(w2pd$Rank <= 25),])
 
-apd400.1 <- lm(Seconds ~ Time, data = w4pd[which(w4pd$Rank == 25),])
-apd400.2 <- lm(Seconds ~ Time, data = w4pd[which(w4pd$Rank2 == 25),])
-apd400.3 <- lm(Seconds ~ Time, data = w4pd[which(w4pd$Rank <= 25),])
+apd400.1 <- lm(PD ~ Time, data = w4pd[which(w4pd$Rank == 25),])
+apd400.2<- lm(PD ~ Time, data = w4pd[which(w4pd$Rank <= 25),])
 
 # Viewing the results
 
@@ -714,7 +706,6 @@ stargazer(apd800.2, apd1500.2, apd5000.2, apd10000.2, apdmar.2, type = 'text')
 
 stargazer(aw800.3, aw1500.3, aw5000.3, aw10000.3, awmar.3, type = 'text')
 stargazer(am800.3, am1500.3, am5000.3, am10000.3, ammar.3, type = 'text')
-stargazer(apd800.3, apd1500.3, apd5000.3, apd10000.3, apdmar.3, type = 'text')
 
 stargazer(aw100.1, aw200.1, aw400.1, aw800.1, aw1500.1, aw5000.1, aw10000.1, awmar.1, type = 'text')
 stargazer(am100.1, am200.1, am400.1, am800.1, am1500.1, am5000.1, am10000.1, ammar.1, type = 'text')
@@ -726,7 +717,6 @@ stargazer(apd100.2, apd200.2, apd400.2, apd800.2, apd1500.2, apd5000.2, apd10000
 
 stargazer(aw100.3, aw200.3, aw400.3, aw800.3, aw1500.3, aw5000.3, aw10000.3, awmar.3, type = 'text')
 stargazer(am100.3, am200.3, am400.3, am800.3, am1500.3, am5000.3, am10000.3, ammar.3, type = 'text')
-stargazer(apd100.3, apd200.3, apd400.3, apd800.3, apd1500.3, apd5000.3, apd10000.3, apdmar.3, type = 'text')
 
 # Better analysis go brrr
 
