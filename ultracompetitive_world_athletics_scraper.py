@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as bs
 
 # Filepath for to save data to
 
-filepath = 'D:/ultracompetitive/international_data/iaaf/iaaf.csv'
+filepath = 'C:/Users/Michael/Documents/Data/ultracompetitive/international_data/iaaf/iaaf.csv'
 
 # Parameters
 
@@ -43,19 +43,21 @@ for event in event_list:
                     soup = bs(response, 'html.parser')
                     data = soup.find_all('td')
                     
-                    for i in range(100):
+                    if len(data) > 999:
                         
-                        ranks.append(str(data[(10*i)])[20:-5].replace(' ', ''))
-                        marks.append(str(data[(10*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
-                        names.append(str(data[2])[53:str(data[(10*i) + 2])[53:].find('\n')+51])
-                        nats.append(str(data[(10*i) + 4])[29:32])
-                        years.append(year)
-                        genders.append(gender)
-                        events.append(event)
-                        
+                        for i in range(100):
+                            
+                            ranks.append(str(data[(10*i)])[20:-5].replace(' ', ''))
+                            marks.append(str(data[(10*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
+                            names.append(str(data[(10*i) + 2])[53:str(data[(10*i) + 2])[53:].find('\n')+51])
+                            nats.append(str(data[(10*i) + 4])[29:32])
+                            years.append(year)
+                            genders.append(gender)
+                            events.append(event)
+                            
                 except:
                     
-                    continue
+                    pass
 
 # Adding sprints
 
@@ -79,19 +81,21 @@ for event in sprint_list:
                     soup = bs(response, 'html.parser')
                     data = soup.find_all('td')
                     
-                    for i in range(100):
+                    if len(data) > 999:
                         
-                        ranks.append(str(data[(10*i)])[20:-5].replace(' ', ''))
-                        marks.append(str(data[(10*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
-                        names.append(str(data[2])[53:str(data[(10*i) + 2])[53:].find('\n')+51])
-                        nats.append(str(data[(10*i) + 4])[29:32])
-                        years.append(year)
-                        genders.append(gender)
-                        events.append(event)
-                        
+                        for i in range(100):
+                            
+                            ranks.append(str(data[(10*i)])[20:-5].replace(' ', ''))
+                            marks.append(str(data[(10*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
+                            names.append(str(data[(10*i) + 2])[53:str(data[(10*i) + 2])[53:].find('\n')+51])
+                            nats.append(str(data[(10*i) + 4])[29:32])
+                            years.append(year)
+                            genders.append(gender)
+                            events.append(event)
+                            
                 except:
                     
-                    continue
+                    pass
 
 # Make and save dataframe
 
