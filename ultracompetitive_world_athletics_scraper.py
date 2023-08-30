@@ -78,21 +78,34 @@ for event in sprint_list:
                     response = urllib.request.urlopen(page)
                     soup = bs(response, 'html.parser')
                     data = soup.find_all('td')
-                    x = len(data) / 100
                     
-                    for i in range(100):
+                    if len(data) == 1100:
                         
-                        ranks.append(str(data[int(x*i)])[20:-5].replace(' ', ''))
-                        marks.append(str(data[int(x*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
-                        names.append(str(data[int(x*i) + 2])[53:str(data[int(x*i) + 2])[53:].find('\n')+51])
-                        nats.append(str(data[int(x*i) + 4])[29:32])
-                        years.append(year)
-                        genders.append(gender)
-                        events.append(event)
+                        for i in range(100):
+                            
+                            ranks.append(str(data[(11*i)])[20:-5].replace(' ', ''))
+                            marks.append(str(data[(11*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
+                            names.append(str(data[(11*i) + 3])[53:str(data[(11*i) + 3])[53:].find('\n')+51])
+                            nats.append(str(data[(11*i) + 5])[29:32])
+                            years.append(year)
+                            genders.append(gender)
+                            events.append(event)
+                            
+                    elif len(data) == 1000:
                         
+                        for i in range(100):
+                            
+                            ranks.append(str(data[(10*i)])[20:-5].replace(' ', ''))
+                            marks.append(str(data[(10*i) + 1])[20:].replace(' ', '').replace('\n</td>', ''))
+                            names.append(str(data[(10*i) + 2])[53:str(data[(10*i) + 2])[53:].find('\n')+51])
+                            nats.append(str(data[(10*i) + 4])[29:32])
+                            years.append(year)
+                            genders.append(gender)
+                            events.append(event)
+                            
                 except:
                     
-                    continue
+                    pass
 
 # Make a dataframe
 
