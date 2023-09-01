@@ -287,15 +287,11 @@ umar$Rank3 <- r3mar
 
 # Making big dataframes
 
-#women.wa <- rbind(w1[which(w1$Gender == 'women'),], w2[which(w2$Gender == 'women'),], w4[which(w4$Gender == 'women'),], w8[which(w8$Gender == 'women'),], w15[which(w15$Gender == 'women'),], w5[which(w5$Gender == 'women'),], w10[which(w10$Gender == 'women'),], wmar[which(wmar$Gender == 'women'),])
-#women.us <- rbind(u1[which(u1$Gender == 'women'),], u2[which(u2$Gender == 'women'),], u4[which(u4$Gender == 'women'),], u8[which(u8$Gender == 'women'),], u15[which(u15$Gender == 'women'),], u5[which(u5$Gender == 'women'),], u10[which(u10$Gender == 'women'),], umar[which(umar$Gender == 'women'),])
-women.wa <- rbind(w8[which(w8$Gender == 'women'),], w15[which(w15$Gender == 'women'),], w5[which(w5$Gender == 'women'),], w10[which(w10$Gender == 'women'),], wmar[which(wmar$Gender == 'women'),])
-women.us <- rbind(u8[which(u8$Gender == 'women'),], u15[which(u15$Gender == 'women'),], u5[which(u5$Gender == 'women'),], u10[which(u10$Gender == 'women'),], umar[which(umar$Gender == 'women'),])
+women.wa <- rbind(w1[which(w1$Gender == 'women'),], w2[which(w2$Gender == 'women'),], w4[which(w4$Gender == 'women'),], w8[which(w8$Gender == 'women'),], w15[which(w15$Gender == 'women'),], w5[which(w5$Gender == 'women'),], w10[which(w10$Gender == 'women'),], wmar[which(wmar$Gender == 'women'),])
+women.us <- rbind(u1[which(u1$Gender == 'women'),], u2[which(u2$Gender == 'women'),], u4[which(u4$Gender == 'women'),], u8[which(u8$Gender == 'women'),], u15[which(u15$Gender == 'women'),], u5[which(u5$Gender == 'women'),], u10[which(u10$Gender == 'women'),], umar[which(umar$Gender == 'women'),])
 
-#men.wa <- rbind(w1[which(w1$Gender == 'men'),], w2[which(w2$Gender == 'men'),], w4[which(w4$Gender == 'men'),], w8[which(w8$Gender == 'men'),], w15[which(w15$Gender == 'men'),], w5[which(w5$Gender == 'men'),], w10[which(w10$Gender == 'men'),], wmar[which(wmar$Gender == 'men'),])
-#men.us <- rbind(u1[which(u1$Gender == 'men'),], u2[which(u2$Gender == 'men'),], u4[which(u4$Gender == 'men'),], u8[which(u8$Gender == 'men'),], u15[which(u15$Gender == 'men'),], u5[which(u5$Gender == 'men'),], u10[which(u10$Gender == 'men'),], umar[which(umar$Gender == 'men'),])
-men.wa <- rbind(w8[which(w8$Gender == 'men'),], w15[which(w15$Gender == 'men'),], w5[which(w5$Gender == 'men'),], w10[which(w10$Gender == 'men'),], wmar[which(wmar$Gender == 'men'),])
-men.us <- rbind(u8[which(u8$Gender == 'men'),], u15[which(u15$Gender == 'men'),], u5[which(u5$Gender == 'men'),], u10[which(u10$Gender == 'men'),], umar[which(umar$Gender == 'men'),])
+men.wa <- rbind(w1[which(w1$Gender == 'men'),], w2[which(w2$Gender == 'men'),], w4[which(w4$Gender == 'men'),], w8[which(w8$Gender == 'men'),], w15[which(w15$Gender == 'men'),], w5[which(w5$Gender == 'men'),], w10[which(w10$Gender == 'men'),], wmar[which(wmar$Gender == 'men'),])
+men.us <- rbind(u1[which(u1$Gender == 'men'),], u2[which(u2$Gender == 'men'),], u4[which(u4$Gender == 'men'),], u8[which(u8$Gender == 'men'),], u15[which(u15$Gender == 'men'),], u5[which(u5$Gender == 'men'),], u10[which(u10$Gender == 'men'),], umar[which(umar$Gender == 'men'),])
 
 # Making gendered dataframes
 
@@ -357,36 +353,36 @@ upd.mar <- c()
 
 for (y in 2001:2022) {
 
-  #xw1w <- w1w[which(w1w$Year == y),]
-  #xw2w <- w2w[which(w2w$Year == y),]
-  #xw4w <- w4w[which(w4w$Year == y),]
+  xw1w <- w1w[which(w1w$Year == y),]
+  xw2w <- w2w[which(w2w$Year == y),]
+  xw4w <- w4w[which(w4w$Year == y),]
   xw8w <- w8w[which(w8w$Year == y),]
   xw15w <-w15w[which(w15w$Year == y),]
   xw5w <- w5w[which(w5w$Year == y),]
   xw10w <- w10w[which(w10w$Year == y),]
   xwmarw <- wmarw[which(wmarw$Year == y),]
 
-  #xw1m <- w1m[which(w1m$Year == y),]
-  #xw2m <- w2m[which(w2m$Year == y),]
-  #xw4m <- w4m[which(w4m$Year == y),]
+  xw1m <- w1m[which(w1m$Year == y),]
+  xw2m <- w2m[which(w2m$Year == y),]
+  xw4m <- w4m[which(w4m$Year == y),]
   xw8m <- w8m[which(w8m$Year == y),]
   xw15m <- w15m[which(w15m$Year == y),]
   xw5m <- w5m[which(w5m$Year == y),]
   xw10m <- w10m[which(w10m$Year == y),]
   xwmarm <- wmarm[which(wmarm$Year == y),]
 
-  #xu1w <- u1w[which(u1w$Year == y),]
-  #xu2w <- u2w[which(u2w$Year == y),]
-  #xu4w <- u4w[which(u4w$Year == y),]
+  xu1w <- u1w[which(u1w$Year == y),]
+  xu2w <- u2w[which(u2w$Year == y),]
+  xu4w <- u4w[which(u4w$Year == y),]
   xu8w <- u8w[which(u8w$Year == y),]
   xu15w <- u15w[which(u15w$Year == y),]
   xu5w <- u5w[which(u5w$Year == y),]
   xu10w <- u10w[which(u10w$Year == y),]
   xumarw <- umarw[which(umarw$Year == y),]
 
-  #xu1m <- u1m[which(u1m$Year == y),]
-  #xu2m <- u2m[which(u2m$Year == y),]
-  #xu4m <- u4m[which(u4m$Year == y),]
+  xu1m <- u1m[which(u1m$Year == y),]
+  xu2m <- u2m[which(u2m$Year == y),]
+  xu4m <- u4m[which(u4m$Year == y),]
   xu8m <- u8m[which(u8m$Year == y),]
   xu15m <- u15m[which(u15m$Year == y),]
   xu5m <- u5m[which(u5m$Year == y),]
@@ -395,23 +391,23 @@ for (y in 2001:2022) {
 
   for (i in 1:1000) {
 
-    #pd.100 <- c(pd.100, 100 * (xw1w$Seconds[i] - xw1m$Seconds[i]) / xw1m$Seconds[i])
-    #pd.200 <- c(pd.200, 100 * (xw3w$Seconds[i] - xw2m$Seconds[i]) / xw2m$Seconds[i])
-    #pd.400 <- c(pd.400, 100 * (xw4w$Seconds[i] - xw4m$Seconds[i]) / xw4m$Seconds[i])
-    pd.800 <- c(pd.800, 100 * (xw8w$Seconds[i] - xw8m$Seconds[i]) / xw8m$Seconds[i])
-    pd.1500 <- c(pd.1500, 100 * (xw15w$Seconds[i] - xw15m$Seconds[i]) / xw15m$Seconds[i])
-    pd.5000 <- c(pd.5000, 100 * (xw5w$Seconds[i] - xw5m$Seconds[i]) / xw5m$Seconds[i])
-    pd.10000 <- c(pd.10000, 100 * (xw10w$Seconds[i] - xw10m$Seconds[i]) / xw10m$Seconds[i])
-    pd.mar <- c(pd.mar, 100 * (xwmarw$Seconds[i] - xwmarm$Seconds[i]) / xwmarm$Seconds[i])
+    pd.100 <- c(pd.100, 100 * (as.numeric(xw1w$Seconds[i]) - as.numeric(xw1m$Seconds[i])) / as.numeric(xw1m$Seconds[i]))
+    pd.200 <- c(pd.200, 100 * (as.numeric(xw2w$Seconds[i]) - as.numeric(xw2m$Seconds[i])) / as.numeric(xw2m$Seconds[i]))
+    pd.400 <- c(pd.400, 100 * (as.numeric(xw4w$Seconds[i]) - as.numeric(xw4m$Seconds[i])) / as.numeric(xw4m$Seconds[i]))
+    pd.800 <- c(pd.800, 100 * (as.numeric(xw8w$Seconds[i]) - as.numeric(xw8m$Seconds[i])) / as.numeric(xw8m$Seconds[i]))
+    pd.1500 <- c(pd.1500, 100 * (as.numeric(xw15w$Seconds[i]) - as.numeric(xw15m$Seconds[i])) / as.numeric(xw15m$Seconds[i]))
+    pd.5000 <- c(pd.5000, 100 * (as.numeric(xw5w$Seconds[i]) - as.numeric(xw5m$Seconds[i])) / as.numeric(xw5m$Seconds[i]))
+    pd.10000 <- c(pd.10000, 100 * (as.numeric(xw10w$Seconds[i]) - as.numeric(xw10m$Seconds[i])) / as.numeric(xw10m$Seconds[i]))
+    pd.mar <- c(pd.mar, 100 * (as.numeric(xwmarw$Seconds[i]) - as.numeric(xwmarm$Seconds[i])) / as.numeric(xwmarm$Seconds[i]))
 
-    #upd.100 <- c(upd.100, 100 * (xu1w$Seconds[i] - xu1m$Seconds[i]) / xu1m$Seconds[i])
-    #upd.200 <- c(upd.200, 100 * (xu3w$Seconds[i] - xu2m$Seconds[i]) / xu2m$Seconds[i])
-    #upd.400 <- c(upd.400,100 *  (xu4w$Seconds[i] - xu4m$Seconds[i]) / xu4m$Seconds[i])
-    upd.800 <- c(upd.800, 100 * (xu8w$Seconds[i] - xu8m$Seconds[i]) / xu8m$Seconds[i])
-    upd.1500 <- c(upd.1500, 100 * (xu15w$Seconds[i] - xu15m$Seconds[i]) / xu15m$Seconds[i])
-    upd.5000 <- c(upd.5000, 100 * (xu5w$Seconds[i] - xu5m$Seconds[i]) / xu5m$Seconds[i])
-    upd.10000 <- c(upd.10000, 100 * (xu10w$Seconds[i] - xu10m$Seconds[i]) / xu10m$Seconds[i])
-    upd.mar <- c(upd.mar, 100 * (xumarw$Seconds[i] - xumarm$Seconds[i]) / xumarm$Seconds[i])
+    upd.100 <- c(upd.100, 100 * (as.numeric(xu1w$Seconds[i]) - as.numeric(xu1m$Seconds[i])) / as.numeric(xu1m$Seconds[i]))
+    upd.200 <- c(upd.200, 100 * (as.numeric(xu2w$Seconds[i]) - as.numeric(xu2m$Seconds[i])) / as.numeric(xu2m$Seconds[i]))
+    upd.400 <- c(upd.400,100 *  (as.numeric(xu4w$Seconds[i]) - as.numeric(xu4m$Seconds[i])) / as.numeric(xu4m$Seconds[i]))
+    upd.800 <- c(upd.800, 100 * (as.numeric(xu8w$Seconds[i]) - as.numeric(xu8m$Seconds[i])) / as.numeric(xu8m$Seconds[i]))
+    upd.1500 <- c(upd.1500, 100 * (as.numeric(xu15w$Seconds[i]) - as.numeric(xu15m$Seconds[i])) / as.numeric(xu15m$Seconds[i]))
+    upd.5000 <- c(upd.5000, 100 * (as.numeric(xu5w$Seconds[i]) - as.numeric(xu5m$Seconds[i])) / as.numeric(xu5m$Seconds[i]))
+    upd.10000 <- c(upd.10000, 100 * (as.numeric(xu10w$Seconds[i]) - as.numeric(xu10m$Seconds[i])) / as.numeric(xu10m$Seconds[i]))
+    upd.mar <- c(upd.mar, 100 * (as.numeric(xumarw$Seconds[i]) - as.numeric(xumarm$Seconds[i])) / as.numeric(xumarm$Seconds[i]))
 
   }
 
@@ -467,24 +463,6 @@ u15pd <- u15pd[which(complete.cases(u15pd) == TRUE),]
 u5pd <- u5pd[which(complete.cases(u5pd) == TRUE),]
 u10pd <- u10pd[which(complete.cases(u10pd) == TRUE),]
 umarpd <- umarpd[which(complete.cases(umarpd) == TRUE),]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Replicating prior analysis
 
@@ -572,77 +550,45 @@ stargazer(w800.2, w1500.2, w5000.2, w10000.2, wmar.2, type = 'text')
 stargazer(m800.2, m1500.2, m5000.2, m10000.2, mmar.2, type = 'text')
 stargazer(pd800.2, pd1500.2, pd5000.2, pd10000.2, pdmar.2, type = 'text')
 
-stargazer(w100.1, w200.1, w400.1, w800.1, w1500.1, w5000.1, w10000.1, wmar.1, type = 'text')
-stargazer(m100.1, m200.1, m400.1, m800.1, m1500.1, m5000.1, m10000.1, mmar.1, type = 'text')
-stargazer(pd100.1, pd200.1, pd400.1, pd800.1, pd1500.1, pd5000.1, pd10000.1, pdmar.1, type = 'text')
+stargazer(w100.1, w200.1, w400.1, type = 'text')
+stargazer(m100.1, m200.1, m400.1, type = 'text')
+stargazer(pd100.1, pd200.1, pd400.1, type = 'text')
 
-stargazer(w100.2, w200.2, w400.2, w800.2, w1500.2, w5000.2, w10000.2, wmar.2, type = 'text')
-stargazer(m100.2, m200.2, m400.2, m800.2, m1500.2, m5000.2, m10000.2, mmar.2, type = 'text')
-stargazer(pd100.2, pd200.2, pd400.2, pd800.2, pd1500.2, pd5000.2, pd10000.2, pdmar.2, type = 'text')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+stargazer(w100.2, w200.2, w400.2, type = 'text')
+stargazer(m100.2, m200.2, m400.2, type = 'text')
+stargazer(pd100.2, pd200.2, pd400.2, type = 'text')
 
 # Expanding all of above regressions to all WA data
 
 aw800.1 <- lm(Seconds ~ Time, data = w8w[which(w8w$Rank == 25),])
-aw800.2 <- lm(Seconds ~ Time, data = w8w[which(w8w$Rank2 == 25),])
-aw800.3 <- lm(Seconds ~ Time, data = w8w[which(w8w$Rank <= 25),])
+aw800.2 <- lm(Seconds ~ Time, data = w8w[which(w8w$Rank <= 25),])
 
 aw1500.1 <- lm(Seconds ~ Time, data = w15w[which(w15w$Rank == 25),])
-aw1500.2 <- lm(Seconds ~ Time, data = w15w[which(w15w$Rank2 == 25),])
-aw1500.3 <- lm(Seconds ~ Time, data = w15w[which(w15w$Rank <= 25),])
+aw1500.2 <- lm(Seconds ~ Time, data = w15w[which(w15w$Rank <= 25),])
 
 aw5000.1 <- lm(Seconds ~ Time, data = w5w[which(w5w$Rank == 25),])
-aw5000.2 <- lm(Seconds ~ Time, data = w5w[which(w5w$Rank2 == 25),])
-aw5000.3 <- lm(Seconds ~ Time, data = w5w[which(w5w$Rank <= 25),])
+aw5000.2 <- lm(Seconds ~ Time, data = w5w[which(w5w$Rank <= 25),])
 
 aw10000.1 <- lm(Seconds ~ Time, data = w10w[which(w10w$Rank == 25),])
-aw10000.2 <- lm(Seconds ~ Time, data = w10w[which(w10w$Rank2 == 25),])
-aw10000.3 <- lm(Seconds ~ Time, data = w10w[which(w10w$Rank <= 25),])
+aw10000.2 <- lm(Seconds ~ Time, data = w10w[which(w10w$Rank <= 25),])
 
 awmar.1 <- lm(Seconds ~ Time, data = wmarw[which(wmarw$Rank == 25),])
-awmar.2 <- lm(Seconds ~ Time, data = wmarw[which(wmarw$Rank2 == 25),])
-awmar.3 <- lm(Seconds ~ Time, data = wmarw[which(wmarw$Rank <= 25),])
+awmar.2 <- lm(Seconds ~ Time, data = wmarw[which(wmarw$Rank <= 25),])
 
 am800.1 <- lm(Seconds ~ Time, data = w8m[which(w8m$Rank == 25),])
-am800.2 <- lm(Seconds ~ Time, data = w8m[which(w8m$Rank2 == 25),])
-am800.3 <- lm(Seconds ~ Time, data = w8m[which(w8m$Rank <= 25),])
+am800.2 <- lm(Seconds ~ Time, data = w8m[which(w8m$Rank <= 25),])
 
 am1500.1 <- lm(Seconds ~ Time, data = w15m[which(w15m$Rank == 25),])
-am1500.2 <- lm(Seconds ~ Time, data = w15m[which(w15m$Rank2 == 25),])
-am1500.3 <- lm(Seconds ~ Time, data = w15m[which(w15m$Rank <= 25),])
+am1500.2 <- lm(Seconds ~ Time, data = w15m[which(w15m$Rank <= 25),])
 
 am5000.1 <- lm(Seconds ~ Time, data = w5m[which(w5m$Rank == 25),])
-am5000.2 <- lm(Seconds ~ Time, data = w5m[which(w5m$Rank2 == 25),])
-am5000.3 <- lm(Seconds ~ Time, data = w5m[which(w5m$Rank <= 25),])
+am5000.2 <- lm(Seconds ~ Time, data = w5m[which(w5m$Rank <= 25),])
 
 am10000.1 <- lm(Seconds ~ Time, data = w10m[which(w10m$Rank == 25),])
-am10000.2 <- lm(Seconds ~ Time, data = w10m[which(w10m$Rank2 == 25),])
-am10000.3 <- lm(Seconds ~ Time, data = w10m[which(w10m$Rank <= 25),])
+am10000.2 <- lm(Seconds ~ Time, data = w10m[which(w10m$Rank <= 25),])
 
 ammar.1 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank == 25),])
-ammar.2 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank2 == 25),])
-ammar.3 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank <= 25),])
+ammar.2 <- lm(Seconds ~ Time, data = wmarm[which(wmarm$Rank <= 25),])
 
 apd800.1 <- lm(PD ~ Time, data = w8pd[which(w8pd$Rank == 25),])
 apd800.2 <- lm(PD ~ Time, data = w8pd[which(w8pd$Rank <= 25),])
@@ -662,28 +608,22 @@ apdmar.2 <- lm(PD ~ Time, data = wmarpd[which(wmarpd$Rank <= 25),])
 # Expanding to the sprints
 
 aw100.1 <- lm(Seconds ~ Time, data = w1w[which(w1w$Rank == 25),])
-aw100.2 <- lm(Seconds ~ Time, data = w1w[which(w1w$Rank2 == 25),])
-aw100.3 <- lm(Seconds ~ Time, data = w1w[which(w1w$Rank <= 25),])
+aw100.2 <- lm(Seconds ~ Time, data = w1w[which(w1w$Rank <= 25),])
 
 aw200.1 <- lm(Seconds ~ Time, data = w2w[which(w2w$Rank == 25),])
-aw200.2 <- lm(Seconds ~ Time, data = w2w[which(w2w$Rank2 == 25),])
-aw200.3 <- lm(Seconds ~ Time, data = w2w[which(w2w$Rank <= 25),])
+aw200.2 <- lm(Seconds ~ Time, data = w2w[which(w2w$Rank <= 25),])
 
 aw400.1 <- lm(Seconds ~ Time, data = w4w[which(w4w$Rank == 25),])
-aw400.2 <- lm(Seconds ~ Time, data = w4w[which(w4w$Rank2 == 25),])
-aw400.3 <- lm(Seconds ~ Time, data = w4w[which(w4w$Rank <= 25),])
+aw400.2 <- lm(Seconds ~ Time, data = w4w[which(w4w$Rank <= 25),])
 
 am100.1 <- lm(Seconds ~ Time, data = w1m[which(w1m$Rank == 25),])
-am100.2 <- lm(Seconds ~ Time, data = w1m[which(w1m$Rank2 == 25),])
-am100.3 <- lm(Seconds ~ Time, data = w1m[which(w1m$Rank <= 25),])
+am100.2 <- lm(Seconds ~ Time, data = w1m[which(w1m$Rank <= 25),])
 
 am200.1 <- lm(Seconds ~ Time, data = w2m[which(w2m$Rank == 25),])
-am200.2 <- lm(Seconds ~ Time, data = w2m[which(w2m$Rank2 == 25),])
-am200.3 <- lm(Seconds ~ Time, data = w2m[which(w2m$Rank <= 25),])
+am200.2 <- lm(Seconds ~ Time, data = w2m[which(w2m$Rank <= 25),])
 
 am400.1 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank == 25),])
-am400.2 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank2 == 25),])
-am400.3 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank <= 25),])
+am400.2 <- lm(Seconds ~ Time, data = w4m[which(w4m$Rank <= 25),])
 
 apd100.1 <- lm(PD ~ Time, data = w1pd[which(w1pd$Rank == 25),])
 apd100.2 <- lm(PD ~ Time, data = w1pd[which(w1pd$Rank <= 25),])
@@ -704,100 +644,103 @@ stargazer(aw800.2, aw1500.2, aw5000.2, aw10000.2, awmar.2, type = 'text')
 stargazer(am800.2, am1500.2, am5000.2, am10000.2, ammar.2, type = 'text')
 stargazer(apd800.2, apd1500.2, apd5000.2, apd10000.2, apdmar.2, type = 'text')
 
-stargazer(aw800.3, aw1500.3, aw5000.3, aw10000.3, awmar.3, type = 'text')
-stargazer(am800.3, am1500.3, am5000.3, am10000.3, ammar.3, type = 'text')
+stargazer(aw100.1, aw200.1, aw400.1, type = 'text')
+stargazer(am100.1, am200.1, am400.1, type = 'text')
+stargazer(apd100.1, apd200.1, apd400.1, type = 'text')
 
-stargazer(aw100.1, aw200.1, aw400.1, aw800.1, aw1500.1, aw5000.1, aw10000.1, awmar.1, type = 'text')
-stargazer(am100.1, am200.1, am400.1, am800.1, am1500.1, am5000.1, am10000.1, ammar.1, type = 'text')
-stargazer(apd100.1, apd200.1, apd400.1, apd800.1, apd1500.1, apd5000.1, apd10000.1, apdmar.1, type = 'text')
-
-stargazer(aw100.2, aw200.2, aw400.2, aw800.2, aw1500.2, aw5000.2, aw10000.2, awmar.2, type = 'text')
-stargazer(am100.2, am200.2, am400.2, am800.2, am1500.2, am5000.2, am10000.2, ammar.2, type = 'text')
-stargazer(apd100.2, apd200.2, apd400.2, apd800.2, apd1500.2, apd5000.2, apd10000.2, apdmar.2, type = 'text')
-
-stargazer(aw100.3, aw200.3, aw400.3, aw800.3, aw1500.3, aw5000.3, aw10000.3, awmar.3, type = 'text')
-stargazer(am100.3, am200.3, am400.3, am800.3, am1500.3, am5000.3, am10000.3, ammar.3, type = 'text')
+stargazer(aw100.2, aw200.2, aw400.2, type = 'text')
+stargazer(am100.2, am200.2, am400.2, type = 'text')
+stargazer(apd100.2, apd200.2, apd400.2, type = 'text')
 
 # Better analysis go brrr
 
-w.w.all <- lm(Seconds ~ Rank + Time + factor(Event), data = women.wa)
-w.w.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = women.wa[which(women.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-w.w.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = women.wa[which(women.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
-w.w.100 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '100-metres'),])
-w.w.200 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '200-metres'),])
-w.w.400 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '400-metres'),])
-w.w.800 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '800-metres'),])
-w.w.1500 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '1500-metres'),])
-w.w.5000 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '5000-metres'),])
-w.w.10000 <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == '10000-metres'),])
-w.w.mar <- lm(Seconds ~ Rank + Time, data = women.wa[which(women.wa$Event == 'marathon'),])
+women.wa$Seconds <- as.numeric(women.wa$Seconds)
+women.us$Seconds <- as.numeric(women.us$Seconds)
 
-m.w.all <- lm(Seconds ~ Rank + Time + factor(Event), data = men.wa)
-m.w.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = men.wa[which(men.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-m.w.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = men.wa[which(men.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
-m.w.100 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '100-metres'),])
-m.w.200 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '200-metres'),])
-m.w.400 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '400-metres'),])
-m.w.800 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '800-metres'),])
-m.w.1500 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '1500-metres'),])
-m.w.5000 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '5000-metres'),])
-m.w.10000 <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == '10000-metres'),])
-m.w.mar <- lm(Seconds ~ Rank + Time, data = men.wa[which(men.wa$Event == 'marathon'),])
+men.wa$Seconds <- as.numeric(men.wa$Seconds)
+men.us$Seconds <- as.numeric(men.us$Seconds)
 
-pd.w.all <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.wa)
-pd.w.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.wa[which(pd.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-pd.w.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.wa[which(pd.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
-pd.w.100 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '100-metres'),])
-pd.w.200 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '200-metres'),])
-pd.w.400 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '400-metres'),])
-pd.w.800 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '800-metres'),])
-pd.w.1500 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '1500-metres'),])
-pd.w.5000 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '5000-metres'),])
-pd.w.10000 <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == '10000-metres'),])
-pd.w.mar <- lm(Seconds ~ Rank + Time, data = pd.wa[which(pd.wa$Event == 'marathon'),])
+all.wa <- rbind(women.wa, men.wa)
+all.us <- rbind(women.us, men.us)
 
-w.u.all <- lm(Seconds ~ Rank + Time + factor(Event), data = women.us)
-w.u.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = women.us[which(women.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-w.u.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = women.us[which(women.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
-w.u.100 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '100-metres'),])
-w.u.200 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '200-metres'),])
-w.u.400 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '400-metres'),])
-w.u.800 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '800-metres'),])
-w.u.1500 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '1500-metres'),])
-w.u.5000 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '5000-metres'),])
-w.u.10000 <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == '10000-metres'),])
-w.u.mar <- lm(Seconds ~ Rank + Time, data = women.us[which(women.us$Event == 'marathon'),])
+w1pd$Event <- rep('100-metres', dim(w1pd)[1])
+w2pd$Event <- rep('200-metres', dim(w2pd)[1])
+w4pd$Event <- rep('400-metres', dim(w4pd)[1])
+w8pd$Event <- rep('800-metres', dim(w8pd)[1])
+w15pd$Event <- rep('1500-metres', dim(w15pd)[1])
+w5pd$Event <- rep('5000-metres', dim(w5pd)[1])
+w10pd$Event <- rep('10000-metres', dim(w10pd)[1])
+wmarpd$Event <- rep('marathon', dim(wmarpd)[1])
 
-m.u.all <- lm(Seconds ~ Rank + Time + factor(Event), data = men.us)
-m.u.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = men.us[which(men.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-m.u.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = men.us[which(men.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
-m.u.100 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '100-metres'),])
-m.u.200 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '200-metres'),])
-m.u.400 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '400-metres'),])
-m.u.800 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '800-metres'),])
-m.u.1500 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '1500-metres'),])
-m.u.5000 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '5000-metres'),])
-m.u.10000 <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == '10000-metres'),])
-m.u.mar <- lm(Seconds ~ Rank + Time, data = men.us[which(men.us$Event == 'marathon'),])
+u1pd$Event <- rep('100-metres', dim(u1pd)[1])
+u2pd$Event <- rep('200-metres', dim(u2pd)[1])
+u4pd$Event <- rep('400-metres', dim(u4pd)[1])
+u8pd$Event <- rep('800-metres', dim(u8pd)[1])
+u15pd$Event <- rep('1500-metres', dim(u15pd)[1])
+u5pd$Event <- rep('5000-metres', dim(u5pd)[1])
+u10pd$Event <- rep('10000-metres', dim(u10pd)[1])
+umarpd$Event <- rep('marathon', dim(umarpd)[1])
 
-pd.u.all <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.us)
-pd.u.dis <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.us[which(pd.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
-pd.u.spr <- lm(Seconds ~ Rank + Time + factor(Event), data = pd.us[which(pd.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
-pd.u.100 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '100-metres'),])
-pd.u.200 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '200-metres'),])
-pd.u.400 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '400-metres'),])
-pd.u.800 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '800-metres'),])
-pd.u.1500 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '1500-metres'),])
-pd.u.5000 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '5000-metres'),])
-pd.u.10000 <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == '10000-metres'),])
-pd.u.mar <- lm(Seconds ~ Rank + Time, data = pd.us[which(pd.us$Event == 'marathon'),])
+pd.wa <- rbind(w1pd, w2pd, w4pd, w8pd, w15pd, w5pd, w10pd, wmarpd)
+pd.us <- rbind(u1pd, u2pd, u4pd, u8pd, u15pd, u5pd, u10pd, umarpd)
 
+w.w.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.wa)
+w.w.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.wa[which(women.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+w.w.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.wa[which(women.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+m.w.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.wa)
+m.w.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.wa[which(men.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+m.w.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.wa[which(men.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+a.w.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.wa)
+a.w.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.wa[which(all.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+a.w.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.wa[which(all.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+pd.w.all <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.wa)
+pd.w.dis <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.wa[which(pd.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+pd.w.spr <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.wa[which(pd.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+pd.w.all2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.wa)
+pd.w.dis2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.wa[which(pd.wa$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+pd.w.spr2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.wa[which(pd.wa$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+w.u.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.us)
+w.u.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.us[which(women.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+w.u.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = women.us[which(women.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+m.u.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.us)
+m.u.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.us[which(men.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+m.u.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Event), data = men.us[which(men.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+a.u.all <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.us)
+a.u.dis <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.us[which(all.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+a.u.spr <- lm(log(Seconds) ~ -1 + Rank + Time*factor(Gender)*factor(Event), data = all.us[which(all.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
 
+pd.u.all <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.us)
+pd.u.dis <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.us[which(pd.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+pd.u.spr <- lm(PD ~ -1 + Rank + Time*factor(Event), data = pd.us[which(pd.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
+
+pd.u.all2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.us)
+pd.u.dis2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.us[which(pd.us$Event %in% c('800-metres', '1500-metres', '5000-metres', '10000-metres', 'marathon')),])
+pd.u.spr2 <- lm(PD ~ -1 + Rank*Time + Time*factor(Event), data = pd.us[which(pd.us$Event %in% c('100-metres', '200-metres', '400-metres')),])
+
+# Viewing the results
+
+stargazer(w.w.all, w.w.dis, w.w.spr, type = 'text')
+stargazer(m.w.all, m.w.dis, m.w.spr, type = 'text')
+stargazer(a.w.all, a.w.dis, a.w.spr, type = 'text')
+stargazer(pd.w.all, pd.w.dis, pd.w.spr, type = 'text')
+stargazer(pd.w.all2, pd.w.dis2, pd.w.spr2, type = 'text')
+
+stargazer(w.u.all, w.u.dis, w.u.spr, type = 'text')
+stargazer(m.u.all, m.u.dis, m.u.spr, type = 'text')
+stargazer(a.u.all, a.u.dis, a.u.spr, type = 'text')
+stargazer(pd.u.all, pd.u.dis, pd.u.spr, type = 'text')
+stargazer(pd.u.all2, pd.u.dis2, pd.u.spr2, type = 'text')
+
+stargazer(w.w.all, w.u.all, w.w.dis, w.u.dis, w.w.spr, w.u.spr, type = 'text', omit.stat = c('ser', 'f'))
+stargazer(m.w.all, m.u.all, m.w.dis, m.u.dis, m.w.spr, m.u.spr, type = 'text', omit.stat = c('ser', 'f'))
+stargazer(a.w.all, a.u.all, a.w.dis, a.u.dis, a.w.spr, a.u.spr, type = 'text', omit.stat = c('ser', 'f'))
+stargazer(pd.w.all, pd.u.all, pd.w.dis, pd.u.dis, pd.w.spr, pd.u.spr, type = 'text', omit.stat = c('ser', 'f'))
+stargazer(pd.w.all2, pd.u.all2, pd.w.dis2, pd.u.dis2, pd.w.spr2, pd.u.spr2, type = 'text', omit.stat = c('ser', 'f'))
 
