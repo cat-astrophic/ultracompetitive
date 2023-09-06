@@ -425,8 +425,8 @@ plt.plot(years, rat_100k)
 plt.plot(years, rat_100m)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Gender Ratios (M/F) for Time-Based Events')
-plt.ylabel('Rank')
-plt.xlabel('Ratio')
+plt.xlabel('Year')
+plt.ylabel('Ratio')
 plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
 
@@ -438,7 +438,7 @@ plt.plot(years, rat_48h)
 plt.plot(years, rat_6d)
 plt.legend(['6 hr', '12 hr', '24 hr', '48 hr', '6 days'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Gender Ratios (M/F) for Distance-Based Events')
-plt.xlabel('Rank')
+plt.xlabel('Year')
 plt.ylabel('Ratio')
 plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -450,7 +450,7 @@ plt.plot(years, m100k_sizes)
 plt.plot(years, m100m_sizes)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Number of Male Runners for Time-Based Events')
-plt.xlabel('Rank')
+plt.xlabel('Year')
 plt.ylabel('Count')
 #plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -462,7 +462,7 @@ plt.plot(years, w100k_sizes)
 plt.plot(years, w100m_sizes)
 plt.legend(['50 km', '50 mi', '100 km', '100 mi'], title = 'Event', loc = 'center left', bbox_to_anchor = (1, 0.5))
 plt.title('Number of Female Runners for Time-Based Events')
-plt.xlabel('Rank')
+plt.xlabel('Year')
 plt.ylabel('Count')
 #plt.ylim(0,7)
 plt.xticks(years, years, rotation = 45)
@@ -486,6 +486,12 @@ dt50k = dt50k.sort_values(by = 'Seconds').reset_index(drop = True)
 dt50m = dt50m.sort_values(by = 'Seconds').reset_index(drop = True)
 dt100k = dt100k.sort_values(by = 'Seconds').reset_index(drop = True)
 dt100m = dt100m.sort_values(by = 'Seconds').reset_index(drop = True)
+
+dt6h = dt6h.sort_values(by = 'Distance').reset_index(drop = True)
+dt12h = dt12h.sort_values(by = 'Distance').reset_index(drop = True)
+dt24h = dt24h.sort_values(by = 'Distance').reset_index(drop = True)
+dt48h = dt48h.sort_values(by = 'Distance').reset_index(drop = True)
+dt6d = dt6d.sort_values(by = 'Distance').reset_index(drop = True)
 
 dt50km = dt50k[dt50k.Gender == 'M'].reset_index(drop = True)
 dt50kw = dt50k[dt50k.Gender == 'F'].reset_index(drop = True)
@@ -715,6 +721,86 @@ for year in blah:
     plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
     plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
     plt.title('Percent Difference between Men and Women by Place - 100 mile')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 6hr
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt6h[ddt6h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 6 hour')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 12hr
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt12h[ddt12h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 12 hour')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 24hr
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt24h[ddt24h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 24 hour')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 48hr
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt48h[ddt48h.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 48 hour')
+    plt.xlabel('Rank')
+    plt.ylabel('Percent Difference')
+    #plt.ylim(0,30)
+    plt.xticks(places, places)
+
+# 6day
+
+fig = plt.figure(figsize = (10, 6), dpi = 300)
+
+for year in blah:
+    
+    tmp = ddt6d[ddt6d.Year == year]
+    tmp = tmp[tmp.Rank <= 500]
+    plt.plot(tmp.Rank, tmp.PD, color = colors[blah.index(year)])
+    plt.legend(blah, title = 'Year', loc = 'center left', bbox_to_anchor = (1, 0.5))
+    plt.title('Percent Difference between Men and Women by Place - 6 day')
     plt.xlabel('Rank')
     plt.ylabel('Percent Difference')
     #plt.ylim(0,30)
