@@ -2,11 +2,12 @@
 
 # Loading libraries
 
+library(modelsummary)
 library(stargazer)
 library(sandwich)
 library(progress)
+library(ggplot2)
 library(sjmisc)
-library(modelsummary)
 
 # Project directory info
 
@@ -15,6 +16,10 @@ direc <- 'D:/ultracompetitive/'
 # Reading in the data
 
 compdata <- read.csv(paste(direc, 'output.csv', sep = ''))
+
+# Drop children
+
+compdata <- compdata[which(compdata$Age > 18),]
 
 # Drop people who did very poorly in one year or the other in fixed time events
 
@@ -276,14 +281,22 @@ m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 # Viewing and saving the results
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_noFE_tex.txt', sep = ''), row.names = FALSE)
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+          paste(direc, 'results_race_FE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_noFE.txt', sep = ''), row.names = FALSE)
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+          paste(direc, 'results_race_FE.txt', sep = ''), row.names = FALSE)
 
-# Running regressions with state fixed effects
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_race_FE_tex_xxx.txt', sep = ''), row.names = FALSE)
+
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_race_FE_xxx.txt', sep = ''), row.names = FALSE)
+
+# Running regressions with runner fixed effects
 
 mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
@@ -291,7 +304,7 @@ mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
           data = compdata)
 
 modx <- coeftest(mod, vcov = vcovCL, cluster = ~idvar)
@@ -302,7 +315,7 @@ tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata)
 
 tmodx <- coeftest(tmod, vcov = vcovCL, cluster = ~idvar)
@@ -313,7 +326,7 @@ dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata)
 
 dmodx <- coeftest(dmod, vcov = vcovCL, cluster = ~idvar)
@@ -324,7 +337,7 @@ m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '50 KM'),])
 
 m50kx <- coeftest(m50k, vcov = vcovCL, cluster = ~idvar)
@@ -335,7 +348,7 @@ m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
             data = compdata[which(compdata$RACE_Distance == '100 KM'),])
 
 m100kx <- coeftest(m100k, vcov = vcovCL, cluster = ~idvar)
@@ -346,7 +359,7 @@ m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '50 Miles'),])
 
 m50mx <- coeftest(m50m, vcov = vcovCL, cluster = ~idvar)
@@ -357,7 +370,7 @@ m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
             data = compdata[which(compdata$RACE_Distance == '100 Miles'),])
 
 m100mx <- coeftest(m100m, vcov = vcovCL, cluster = ~idvar)
@@ -368,7 +381,7 @@ m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
           data = compdata[which(compdata$RACE_Distance == '6 Hours'),])
 
 m6hx <- coeftest(m6h, vcov = vcovCL, cluster = ~idvar)
@@ -379,7 +392,7 @@ m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '12 Hours'),])
 
 m12hx <- coeftest(m12h, vcov = vcovCL, cluster = ~idvar)
@@ -390,7 +403,7 @@ m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '24 Hours'),])
 
 m24hx <- coeftest(m24h, vcov = vcovCL, cluster = ~idvar)
@@ -401,7 +414,7 @@ m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '48 Hours'),])
 
 m48hx <- coeftest(m48h, vcov = vcovCL, cluster = ~idvar)
@@ -412,160 +425,26 @@ m72h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(StateX),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
            data = compdata[which(compdata$RACE_Distance == '72 Hours'),])
 
 m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_stateFE_tex.txt', sep = ''), row.names = FALSE)
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_runner_FE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_stateFE.txt', sep = ''), row.names = FALSE)
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_runner_FE.txt', sep = ''), row.names = FALSE)
 
-# Running regressions with census region fixed effects
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_runner_FE_tex_xxx.txt', sep = ''), row.names = FALSE)
 
-mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-          + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-          + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-          + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-          + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-          + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-          data = compdata)
-
-modx <- coeftest(mod, vcov = vcovCL, cluster = ~idvar)
-
-tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata)
-
-tmodx <- coeftest(tmod, vcov = vcovCL, cluster = ~idvar)
-
-dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata)
-
-dmodx <- coeftest(dmod, vcov = vcovCL, cluster = ~idvar)
-
-m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '50 KM'),])
-
-m50kx <- coeftest(m50k, vcov = vcovCL, cluster = ~idvar)
-
-m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-            + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-            data = compdata[which(compdata$RACE_Distance == '100 KM'),])
-
-m100kx <- coeftest(m100k, vcov = vcovCL, cluster = ~idvar)
-
-m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '50 Miles'),])
-
-m50mx <- coeftest(m50m, vcov = vcovCL, cluster = ~idvar)
-
-m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-            + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-            + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-            data = compdata[which(compdata$RACE_Distance == '100 Miles'),])
-
-m100mx <- coeftest(m100m, vcov = vcovCL, cluster = ~idvar)
-
-m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-          + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-          + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-          + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-          + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-          + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-          data = compdata[which(compdata$RACE_Distance == '6 Hours'),])
-
-m6hx <- coeftest(m6h, vcov = vcovCL, cluster = ~idvar)
-
-m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '12 Hours'),])
-
-m12hx <- coeftest(m12h, vcov = vcovCL, cluster = ~idvar)
-
-m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '24 Hours'),])
-
-m24hx <- coeftest(m24h, vcov = vcovCL, cluster = ~idvar)
-
-m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '48 Hours'),])
-
-m48hx <- coeftest(m48h, vcov = vcovCL, cluster = ~idvar)
-
-m72h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
-           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
-           + In_State + Age + I(Age^2) + Experience_Races + I(Experience_Races^2)
-           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
-           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
-           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Region),
-           data = compdata[which(compdata$RACE_Distance == '72 Hours'),])
-
-m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
-
-write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_regionFE_tex.txt', sep = ''), row.names = FALSE)
-
-write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
-          paste(direc, 'results_regionFE.txt', sep = ''), row.names = FALSE)
+write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+          paste(direc, 'results_runner_FE_xxx.txt', sep = ''), row.names = FALSE)
 
 # Creating summary statistics
 
@@ -583,257 +462,5 @@ new_names <- c('Change in Performance', 'Change in Performance - Time Based Even
 sumdata <- compdata[, keepers]
 names(sumdata) <- new_names
 
-png(paste(direc, 'figures/sum_stats.png', sep = ''))
 datasummary_skim(sumdata, fmt = '%.3f')
-dev.off()
-
-# A simulation for the paper using percentiles
-
-binner <- function (veccy) {
-
-  outvec <- c()
-
-  for (i in 1:100) {
-
-    outvec <- c(outvec, mean(veccy[(100*(i-1)+1):(i*100)]))
-
-  }
-
-  return(outvec)
-
-}
-
-set.seed(42069)
-
-f.data <- c()
-m.data <- c()
-sim.data <- c()
-
-for (it in 1:1000) {
-
-  print(it)
-
-  DM <- rnorm(10000, mean = 100, sd = 10)
-  DF <- rnorm(10000, mean = 105, sd = 10)
-
-  sorted.dm <- sort(DM, decreasing = FALSE)
-  sorted.df <- sort(DF, decreasing = FALSE)
-
-  f.data <- c(f.data, DF)
-  m.data <- c(m.data, DM)
-
-  pct.sorted.df <- binner(sorted.df)
-  pct.sorted.dm <- binner(sorted.dm)
-
-  pct.diff <- 100*(pct.sorted.df - pct.sorted.dm) / pct.sorted.dm
-  sim.data <- cbind(sim.data, pct.diff)
-
-}
-
-plot.df <- as.data.frame(cbind(1:100, rowMeans(sim.data), apply(sim.data, 1, sd)))
-names(plot.df) <- c('X', 'Mean', 'SD')
-
-ggplot(data = plot.df, aes(x = X, y = Mean)) +
-  theme_bw() +
-  ggtitle('Percent Difference between Women and Men by Percentile') +
-  ylab('Percent Difference') +
-  xlab('Percentile') +
-  geom_ribbon(aes(ymin = Mean - 2*SD, ymax = Mean + 2*SD), fill = 'lightgray') +
-  geom_hline(yintercept = 5, color = 'black', linetype = 3) +
-  geom_line(aes(y = Mean), size = 1, alpha = 1, color = 'black') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5', '10'),
-                     values = c('1' = 'red', '2' = 'orange', '3' = 'yellow', '4' = 'green', '5' = 'blue', '10' = 'purple')) +
-  scale_x_continuous(breaks = c(1, seq(10, 100, 10)), labels = c(1, seq(10, 100, 10))) +
-  ylim(c(0,10))
-
-ggplot(data = plot.df, aes(x = X, y = Mean)) +
-  theme_bw() +
-  ggtitle('Percent Difference between Women and Men by Percentile') +
-  ylab('Percent Difference') +
-  xlab('Percentile') +
-  geom_ribbon(aes(ymin = Mean - 2*SD, ymax = Mean + 2*SD), fill = 'orange') +
-  geom_hline(yintercept = 5, color = 'black', linetype = 3) +
-  geom_line(aes(y = Mean), size = 1, alpha = 1, color = 'red4') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5', '10'),
-                     values = c('1' = 'red', '2' = 'orange', '3' = 'yellow', '4' = 'green', '5' = 'blue', '10' = 'purple')) +
-  scale_x_continuous(breaks = c(1, seq(10, 100, 10)), labels = c(1, seq(10, 100, 10))) +
-  ylim(c(0,10))
-
-sim.df <- as.data.frame(c(f.data, m.data))
-sim.df$Gender <- c(rep('F', length(f.data)), rep('M', length(m.data)))
-names(sim.df) <- c('Values', 'Gender')
-
-ggplot(data = sim.df, aes(Values, fill = Gender)) +
-  geom_density(alpha = 0.2) +
-  labs(title = 'Comparison of Simulated Values by Gender', x = 'Simualted Value', y = 'Frequency') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_fill_manual(values = c('F' = 'orange', 'M' = 'red4')) +
-  geom_vline(xintercept = mean(sim.df[which(sim.df$Gender == 'F'),]$Values), linetype = 3, color = 'black') +
-  geom_vline(xintercept = mean(sim.df[which(sim.df$Gender == 'M'),]$Values), linetype = 3, color = 'black') +
-  #scale_x_continuous(breaks = seq(40, 160, 20), labels = seq(40, 160, 20))
-  scale_x_continuous(breaks = c(40, 60, 80, 100, 105, 120, 140, 160), labels = c(40, 60, 80, 100, 105, 120, 140, 160))
-
-# A simulation for the paper using place with a basic sampling component
-
-f.data2 <- c()
-m.data2 <- c()
-sim.data2 <- c()
-
-for (it in 1:1000) {
-
-  print(it)
-
-  DM2 <- rnorm(10000, mean = 100, sd = 10)
-  DF2 <- rnorm(10000, mean = 105, sd = 10)
-
-  DMX2 <- sample(DM2, 100)
-  DFX2 <- sample(DF2, 100)
-
-  sorted.dm2 <- sort(DMX2, decreasing = FALSE)
-  sorted.df2 <- sort(DFX2, decreasing = FALSE)
-
-  f.data2 <- c(f.data2, DFX2)
-  m.data2 <- c(m.data2, DMX2)
-
-  pct.diff <- 100*(sorted.df2 - sorted.dm2) / sorted.dm2
-  sim.data2 <- cbind(sim.data2, pct.diff)
-
-}
-
-plot.df2 <- as.data.frame(cbind(1:100, rowMeans(sim.data2), apply(sim.data2, 1, sd)))
-names(plot.df2) <- c('X', 'Mean', 'SD')
-
-ggplot(data = plot.df2, aes(x = X, y = Mean)) +
-  theme_bw() +
-  ggtitle('Percent Difference between Women and Men by Percentile') +
-  ylab('Percent Difference') +
-  xlab('Percentile') +
-  geom_ribbon(aes(ymin = Mean - 2*SD, ymax = Mean + 2*SD), fill = 'lightgray') +
-  geom_hline(yintercept = 5, color = 'black', linetype = 3) +
-  geom_line(aes(y = Mean), size = 1, alpha = 1, color = 'black') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5', '10'),
-                     values = c('1' = 'red', '2' = 'orange', '3' = 'yellow', '4' = 'green', '5' = 'blue', '10' = 'purple')) +
-  scale_x_continuous(breaks = c(1, seq(10, 100, 10)), labels = c(1, seq(10, 100, 10)))
-
-ggplot(data = plot.df2, aes(x = X, y = Mean)) +
-  theme_bw() +
-  ggtitle('Percent Difference between Women and Men by Percentile') +
-  ylab('Percent Difference') +
-  xlab('Percentile') +
-  geom_ribbon(aes(ymin = Mean - 2*SD, ymax = Mean + 2*SD), fill = 'orange') +
-  geom_hline(yintercept = 5, color = 'black', linetype = 3) +
-  geom_line(aes(y = Mean), size = 1, alpha = 1, color = 'red4') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5', '10'),
-                     values = c('1' = 'red', '2' = 'orange', '3' = 'yellow', '4' = 'green', '5' = 'blue', '10' = 'purple')) +
-  scale_x_continuous(breaks = c(1, seq(10, 100, 10)), labels = c(1, seq(10, 100, 10)))
-
-sim.df2 <- as.data.frame(c(f.data2, m.data2))
-sim.df2$Gender <- c(rep('F', length(f.data2)), rep('M', length(m.data2)))
-names(sim.df2) <- c('Values', 'Gender')
-
-ggplot(data = sim.df2, aes(Values, fill = Gender)) +
-  geom_density(alpha = 0.2) +
-  labs(title = 'Comparison of Simulated Values by Gender', x = 'Simualted Value', y = 'Frequency') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_fill_manual(values = c('F' = 'orange', 'M' = 'red4')) +
-  geom_vline(xintercept = mean(sim.df[which(sim.df$Gender == 'F'),]$Values), linetype = 3, color = 'black') +
-  geom_vline(xintercept = mean(sim.df[which(sim.df$Gender == 'M'),]$Values), linetype = 3, color = 'black') +
-  #scale_x_continuous(breaks = seq(40, 160, 20), labels = seq(40, 160, 20))
-  scale_x_continuous(breaks = c(40, 60, 80, 100, 105, 120, 140, 160), labels = c(40, 60, 80, 100, 105, 120, 140, 160))
-
-# A simulation for the paper using place with a more accurate sampling component
-
-m.data3 <- c()
-m.data3.2 <- c()
-m.data3.3 <- c()
-m.data3.4 <- c()
-m.data3.5 <- c()
-
-f.data3 <- c()
-
-sim.data3 <- c()
-sim.data3.2 <- c()
-sim.data3.3 <- c()
-sim.data3.4 <- c()
-sim.data3.5 <- c()
-
-for (it in 1:1000) {
-
-  print(it)
-
-  DF3 <- rnorm(500, mean = 105, sd = 10)
-  DM3 <- rnorm(500, mean = 100, sd = 10)
-  DM3.2 <- rnorm(1000, mean = 100, sd = 10)
-  DM3.3 <- rnorm(1500, mean = 100, sd = 10)
-  DM3.4 <- rnorm(2000, mean = 100, sd = 10)
-  DM3.5 <- rnorm(2500, mean = 100, sd = 10)
-  
-  DFX3 <- sort(DF3, decreasing = FALSE)[1:500]
-  DMX3 <- sort(DM3, decreasing = FALSE)[1:500]
-  DMX3.2 <- sort(DM3.2, decreasing = FALSE)[1:500]
-  DMX3.3 <- sort(DM3.3, decreasing = FALSE)[1:500]
-  DMX3.4 <- sort(DM3.4, decreasing = FALSE)[1:500]
-  DMX3.5 <- sort(DM3.5, decreasing = FALSE)[1:500]
-  
-  m.data3 <- c(m.data3, DMX3)
-  m.data3.2 <- c(m.data3.2, DMX3.2)
-  m.data3.3 <- c(m.data3.3, DMX3.3)
-  m.data3.4 <- c(m.data3.4, DMX3.4)
-  m.data3.5 <- c(m.data3.5, DMX3.5)
-  f.data3 <- c(f.data3, DFX3)
-
-  pct.diff <- 100*(DFX3 - DMX3) / DMX3
-  pct.diff.2 <- 100*(DFX3 - DMX3.2) / DMX3.2
-  pct.diff.3 <- 100*(DFX3 - DMX3.3) / DMX3.3
-  pct.diff.4 <- 100*(DFX3 - DMX3.4) / DMX3.4
-  pct.diff.5 <- 100*(DFX3 - DMX3.5) / DMX3.5
-
-  sim.data3 <- cbind(sim.data3, pct.diff)
-  sim.data3.2 <- cbind(sim.data3.2, pct.diff.2)
-  sim.data3.3 <- cbind(sim.data3.3, pct.diff.3)
-  sim.data3.4 <- cbind(sim.data3.4, pct.diff.4)
-  sim.data3.5 <- cbind(sim.data3.5, pct.diff.5)
-
-}
-
-plot.df3 <- as.data.frame(cbind(1:500, rowMeans(sim.data3), apply(sim.data3, 1, sd)))
-plot.df3.2 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.2), apply(sim.data3.2, 1, sd)))
-plot.df3.3 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.3), apply(sim.data3.3, 1, sd)))
-plot.df3.4 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.4), apply(sim.data3.4, 1, sd)))
-plot.df3.5 <- as.data.frame(cbind(1:500, rowMeans(sim.data3.5), apply(sim.data3.5, 1, sd)))
-
-names(plot.df3) <- c('X', 'Mean', 'SD')
-names(plot.df3.2) <- c('X', 'Mean', 'SD')
-names(plot.df3.3) <- c('X', 'Mean', 'SD')
-names(plot.df3.4) <- c('X', 'Mean', 'SD')
-names(plot.df3.5) <- c('X', 'Mean', 'SD')
-
-combo.df <- as.data.frame(cbind(plot.df3$X, plot.df3$Mean, plot.df3.2$Mean, plot.df3.3$Mean, plot.df3.4$Mean, plot.df3.5$Mean, plot.df3$SD, plot.df3.2$SD, plot.df3.3$SD, plot.df3.4$SD, plot.df3.5$SD))
-colnames(combo.df) <- c('X', 'R1', 'R2', 'R3', 'R4', 'R5', 'SD1', 'SD2', 'SD3', 'SD4', 'SD5')
-
-ggplot(data = combo.df, aes(x = X, y = R1)) +
-  theme_bw() +
-  ggtitle('Percent Difference between Women and Men by Place') +
-  ylab('Percent Difference') +
-  xlab('Place') +
-  geom_hline(yintercept = 5, color = 'black', linetype = 1) +
-  geom_line(aes(y = R1, col = '1'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R2, col = '2'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R3, col = '3'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R4, col = '4'), size = 1, alpha = 0.1) +
-  geom_line(aes(y = R5, col = '5'), size = 1, alpha = 0.1) +
-  geom_ribbon(aes(ymin = R1 - 2*SD1, ymax = R1 + 2*SD1), size = 1, alpha = .333, fill = 'red') +
-  geom_ribbon(aes(ymin = R2 - 2*SD2, ymax = R2 + 2*SD2), size = 1, alpha = .333, fill = 'orange') +
-  geom_ribbon(aes(ymin = R3 - 2*SD3, ymax = R3 + 2*SD3), size = 1, alpha = .333, fill = 'green') +
-  geom_ribbon(aes(ymin = R4 - 2*SD4, ymax = R4 + 2*SD4), size = 1, alpha = .333, fill = 'blue') +
-  geom_ribbon(aes(ymin = R5 - 2*SD5, ymax = R5 + 2*SD5), size = 1, alpha = .333, fill = 'purple') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_color_manual(name = 'Sample Ratio', breaks = c('1', '2', '3', '4', '5'),
-                     values = c('1' = 'red', '2' = 'orange', '3' = 'green', '4' = 'blue', '5' = 'purple')) + 
-  scale_x_continuous(breaks = c(1, seq(50, 500, 50)), labels = c(1, seq(50, 500, 50))) + 
-  scale_y_continuous(breaks = seq(-10, 60, 10), labels = seq(-10, 60, 10))
 
