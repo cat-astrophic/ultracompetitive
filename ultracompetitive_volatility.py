@@ -120,7 +120,7 @@ mhhi = []
 
 for r in data.Runner_ID.unique():
     
-    print('Computing relative place for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(data.Runner_ID.unique())) + '.......')
+    print('Assembling additional data for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(data.Runner_ID.unique())) + '.......')
     
     tmp = data[data.Runner_ID == r].reset_index(drop = True)
     
