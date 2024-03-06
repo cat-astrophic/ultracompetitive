@@ -17,29 +17,35 @@ data = pd.read_csv(direc + 'output.csv')
 
 data = data[np.isnan(data.Seconds) == False].reset_index(drop = True)
 
-# Create a numeric racedata column
+# Create a numeric race date column
 
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 rm = [months.index(m) for m in data.RACE_Month]
 rd = [data.RACE_Year[i]*10000 + rm[i]*100 + data.RACE_Date[i] for i in range(len(data))]
 data = pd.concat([data, pd.Series(rd, name = 'RD')], axis = 1)
-data = data.sort_values(['Runner_ID', 'RD'])
+data = data.sort_values(['Runner_ID', 'RD']).reset_index(drop = True)
 
-# Resetting indices in a weird but convenient way
+# Add a column for within-runner race order
 
-df = pd.DataFrame()
+rn = [1]
 
-for r in data.Runner_ID.unique():
+for i in range(1,len(data)):
     
-    print('Prepping data for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
+    print('Computing runner race number for observation ' + str(i+1) + ' of ' + str(len(data)) + '.......')
     
-    tmp = data[data.Runner_ID == r].reset_index(drop = True)
-    df = pd.concat([df, tmp], axis = 0)
+    if data.Runner_ID[i] == data.Runner_ID[i-1]:
+        
+        rn.append(rn[i-1] + 1)
+        
+    else:
+        
+        rn.append(1)
+
+data = pd.concat([data, pd.Series(rn, name = 'Race_Number')], axis = 1)
 
 # Creating a relative place variable for each observation
 
 rp = []
-rn = []
 
 for i in range(len(data)):
     
@@ -49,13 +55,13 @@ for i in range(len(data)):
     tmp = tmp[tmp.Gender == data.Gender[i]]
     
     rp.append(1 - ((data.Gender_Place[i] - 1) / len(tmp)))
-    rn.append(tmp.index[tmp['Runner_ID'] == data.Runner_ID[i]] + 1)
     
-data = pd.concat([data, pd.Series(rp, name = 'Relative_Place'), pd.Series(rn, name = 'Race_Number')], axis = 1)
+data = pd.concat([data, pd.Series(rp, name = 'Relative_Place')], axis = 1)
 
-# Remove the instances where rp > 1
+# Remove the instances where rp > 1 or rp < 0
 
 data = data[data.Relative_Place <= 1].reset_index(drop = True)
+data = data[data.Relative_Place >= 0].reset_index(drop = True)
 
 # Determine who raced at least ten times
 
@@ -63,7 +69,7 @@ rids = []
 
 for r in data.Runner_ID.unique():
     
-    print('Determine if ten race threshold met for runner ' + str(i+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
+    print('Determine if ten race threshold met for runner ' + str(list(data.Runner_ID.unique()).index(r) + 1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
     
     tmp = data[data.Runner_ID == r]
     
