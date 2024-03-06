@@ -31,7 +31,7 @@ df = pd.DataFrame()
 
 for r in data.Runner_ID.unique():
     
-    print('Determine Prepping data for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
+    print('Prepping data for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
     
     tmp = data[data.Runner_ID == r].reset_index(drop = True)
     df = pd.concat([df, tmp], axis = 0)
