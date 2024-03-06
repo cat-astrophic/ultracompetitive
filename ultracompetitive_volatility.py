@@ -17,24 +17,56 @@ data = pd.read_csv(direc + 'output.csv')
 
 data = data[np.isnan(data.Seconds) == False].reset_index(drop = True)
 
+# Create a numeric racedata column
+
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+rm = [months.index(m) for m in data.RACE_Month]
+rd = [data.RACE_Year[i]*10000 + rm[i]*100 + data.RACE_Date[i] for i in range(len(data))]
+data = pd.concat([data, pd.Series(rd, name = 'RD')], axis = 1)
+data = data.sort_values(['RD'])
+
 # Creating a relative place variable for each observation
 
 rp = []
+rn = []
 
 for i in range(len(data)):
     
     print('Computing relative place for runner ' + str(i+1) + ' of ' + str(len(data)) + '.......')
     
-    tmp = data[data.RACE_ID == data.RACE_ID[i]]
-    tmp = tmp[tmp.Gender == data.Gender[i]]
+    tmp = data[data.Gender == data.Gender[i]]
+    tmp = tmp[tmp.RACE_ID == data.RACE_ID[i]]
+    
+    tmpx = data[data.Runner_ID == data.Runner_ID[i]].reset_index(drop = True)
     
     rp.append(1 - ((data.Gender_Place[i] - 1) / len(tmp)))
+    rn.append(tmpx.index[tmpx['RACE_ID'] == data.RACE_ID[i]].tolist()[0] + 1)
 
-data = pd.concat([data, pd.Series(rp, name = 'Relative_Place')], axis = 1)
+data = pd.concat([data, pd.Series(rp, name = 'Relative_Place'), pd.Series(rn, name = 'Race_Number')], axis = 1)
 
 # Remove the instances where rp > 1
 
 data = data[data.Relative_Place <= 1].reset_index(drop = True)
+
+# Determine who raced at least ten times
+
+rids = []
+
+for r in data.Runner_ID.unique():
+    
+    print('Computing relative place for runner ' + str(i+1) + ' of ' + str(len(data)) + '.......')
+    
+    tmp = data[data.Runner_ID == r]
+    
+    if max(data.Race_Number) >= 10:
+        
+        rids.append(r)
+
+xdata = data[data.Runner_ID.isin(rids)]
+
+# Save this data set
+
+xdata.to_csv(direc + 'relative_place_data.csv', index = False)
 
 # The first new data set will look at relative place volatility
 
