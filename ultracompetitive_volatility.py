@@ -23,7 +23,18 @@ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
 rm = [months.index(m) for m in data.RACE_Month]
 rd = [data.RACE_Year[i]*10000 + rm[i]*100 + data.RACE_Date[i] for i in range(len(data))]
 data = pd.concat([data, pd.Series(rd, name = 'RD')], axis = 1)
-data = data.sort_values(['RD'])
+data = data.sort_values(['Runner_ID', 'RD'])
+
+# Resetting indices in a weird but convenient way
+
+df = pd.DataFrame()
+
+for r in data.Runner_ID.unique():
+    
+    print('Determine Prepping data for runner ' + str(list(data.Runner_ID.unique()).index(r)+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
+    
+    tmp = data[data.Runner_ID == r].reset_index(drop = True)
+    df = pd.concat([df, tmp], axis = 0)
 
 # Creating a relative place variable for each observation
 
@@ -32,16 +43,14 @@ rn = []
 
 for i in range(len(data)):
     
-    print('Computing relative place for runner ' + str(i+1) + ' of ' + str(len(data)) + '.......')
+    print('Computing relative place for observation ' + str(i+1) + ' of ' + str(len(data)) + '.......')
     
-    tmp = data[data.Gender == data.Gender[i]]
-    tmp = tmp[tmp.RACE_ID == data.RACE_ID[i]]
-    
-    tmpx = data[data.Runner_ID == data.Runner_ID[i]].reset_index(drop = True)
+    tmp = data[data.RACE_ID == data.RACE_ID[i]]
+    tmp = tmp[tmp.Gender == data.Gender[i]]
     
     rp.append(1 - ((data.Gender_Place[i] - 1) / len(tmp)))
-    rn.append(tmpx.index[tmpx['RACE_ID'] == data.RACE_ID[i]].tolist()[0] + 1)
-
+    rn.append(tmp.index[tmp['Runner_ID'] == data.Runner_ID[i]] + 1)
+    
 data = pd.concat([data, pd.Series(rp, name = 'Relative_Place'), pd.Series(rn, name = 'Race_Number')], axis = 1)
 
 # Remove the instances where rp > 1
@@ -54,7 +63,7 @@ rids = []
 
 for r in data.Runner_ID.unique():
     
-    print('Computing relative place for runner ' + str(i+1) + ' of ' + str(len(data)) + '.......')
+    print('Determine if ten race threshold met for runner ' + str(i+1) + ' of ' + str(len(list(data.Runner_ID.unique()))) + '.......')
     
     tmp = data[data.Runner_ID == r]
     
