@@ -12,7 +12,7 @@ library(lmtest)
 
 # Project directory info
 
-direc <- 'D:/ultracompetitive/'
+direc <- 'C:/Users/Michael/Documents/Data/ultracompetitive/'
 
 # Reading in the data
 
@@ -20,7 +20,7 @@ compdata <- read.csv(paste(direc, 'output.csv', sep = ''))
 
 # Drop children
 
-compdata <- compdata[which(compdata$Age > 18),]
+compdata <- compdata[which(compdata$Age >= 18),]
 
 # Drop people who did very poorly in one year or the other in fixed time events
 
