@@ -9,6 +9,7 @@ library(progress)
 library(ggplot2)
 library(sjmisc)
 library(lmtest)
+library(dplyr)
 
 # Project directory info
 
@@ -145,6 +146,10 @@ for (s in compdata$StateX) {rr <- c(rr,regions[which(states == s)])}
 
 compdata$Region <- rr
 
+# Remove outliers based on pct change
+
+compdata <- compdata %>% filter(abs(Y) < 50)
+
 # Running regressions with no state or region level fixed effects
 
 mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
@@ -153,7 +158,7 @@ mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+          + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
           data = compdata)
 
 modx <- coeftest(mod, vcov = vcovCL, cluster = ~idvar)
@@ -164,7 +169,7 @@ tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata)
 
 tmodx <- coeftest(tmod, vcov = vcovCL, cluster = ~idvar)
@@ -175,7 +180,7 @@ dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata)
 
 dmodx <- coeftest(dmod, vcov = vcovCL, cluster = ~idvar)
@@ -186,7 +191,7 @@ m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '50 KM'),])
 
 m50kx <- coeftest(m50k, vcov = vcovCL, cluster = ~idvar)
@@ -197,7 +202,7 @@ m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+            + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
             data = compdata[which(compdata$RACE_Distance == '100 KM'),])
 
 m100kx <- coeftest(m100k, vcov = vcovCL, cluster = ~idvar)
@@ -208,7 +213,7 @@ m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '50 Miles'),])
 
 m50mx <- coeftest(m50m, vcov = vcovCL, cluster = ~idvar)
@@ -219,7 +224,7 @@ m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+            + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
             data = compdata[which(compdata$RACE_Distance == '100 Miles'),])
 
 m100mx <- coeftest(m100m, vcov = vcovCL, cluster = ~idvar)
@@ -230,7 +235,7 @@ m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+          + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
           data = compdata[which(compdata$RACE_Distance == '6 Hours'),])
 
 m6hx <- coeftest(m6h, vcov = vcovCL, cluster = ~idvar)
@@ -241,7 +246,7 @@ m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '12 Hours'),])
 
 m12hx <- coeftest(m12h, vcov = vcovCL, cluster = ~idvar)
@@ -252,7 +257,7 @@ m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '24 Hours'),])
 
 m24hx <- coeftest(m24h, vcov = vcovCL, cluster = ~idvar)
@@ -263,7 +268,7 @@ m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '48 Hours'),])
 
 m48hx <- coeftest(m48h, vcov = vcovCL, cluster = ~idvar)
@@ -274,7 +279,7 @@ m72h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar),
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar),
            data = compdata[which(compdata$RACE_Distance == '72 Hours'),])
 
 m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
@@ -282,22 +287,35 @@ m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 # Viewing and saving the results
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
           paste(direc, 'results_race_FE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar')),
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
           paste(direc, 'results_race_FE.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
           paste(direc, 'results_race_FE_tex_xxx.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX')),
           paste(direc, 'results_race_FE_xxx.txt', sep = ''), row.names = FALSE)
 
 # Running regressions with runner fixed effects
+
+mr <- c()
+
+for (i in 1:nrow(compdata)) {
+  
+  print(i)
+  tmp <- compdata %>% filter(Runner_ID == compdata$Runner_ID[i])
+  mr <- c(mr, nrow(tmp))
+  
+}
+
+compdata$multiruns <- mr
+compdata2 <- compdata %>% filter(multiruns > 1)
 
 mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Gender_Place_PY + Age_Place_PY + Travel_Distance + Same_County_Competitors
@@ -305,8 +323,8 @@ mod <- lm(Y ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-          data = compdata)
+          + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+          data = compdata2)
 
 modx <- coeftest(mod, vcov = vcovCL, cluster = ~idvar)
 
@@ -316,8 +334,8 @@ tmod <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata)
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2)
 
 tmodx <- coeftest(tmod, vcov = vcovCL, cluster = ~idvar)
 
@@ -327,8 +345,8 @@ dmod <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata)
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2)
 
 dmodx <- coeftest(dmod, vcov = vcovCL, cluster = ~idvar)
 
@@ -338,8 +356,8 @@ m50k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '50 KM'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '50 KM'),])
 
 m50kx <- coeftest(m50k, vcov = vcovCL, cluster = ~idvar)
 
@@ -349,8 +367,8 @@ m100k <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-            data = compdata[which(compdata$RACE_Distance == '100 KM'),])
+            + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+            data = compdata2[which(compdata2$RACE_Distance == '100 KM'),])
 
 m100kx <- coeftest(m100k, vcov = vcovCL, cluster = ~idvar)
 
@@ -360,8 +378,8 @@ m50m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '50 Miles'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '50 Miles'),])
 
 m50mx <- coeftest(m50m, vcov = vcovCL, cluster = ~idvar)
 
@@ -371,8 +389,8 @@ m100m <- lm(Y_time ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
             + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
             + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
             + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-            + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-            data = compdata[which(compdata$RACE_Distance == '100 Miles'),])
+            + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+            data = compdata2[which(compdata2$RACE_Distance == '100 Miles'),])
 
 m100mx <- coeftest(m100m, vcov = vcovCL, cluster = ~idvar)
 
@@ -382,8 +400,8 @@ m6h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
           + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
           + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
           + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-          + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-          data = compdata[which(compdata$RACE_Distance == '6 Hours'),])
+          + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+          data = compdata2[which(compdata2$RACE_Distance == '6 Hours'),])
 
 m6hx <- coeftest(m6h, vcov = vcovCL, cluster = ~idvar)
 
@@ -393,8 +411,8 @@ m12h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '12 Hours'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '12 Hours'),])
 
 m12hx <- coeftest(m12h, vcov = vcovCL, cluster = ~idvar)
 
@@ -404,8 +422,8 @@ m24h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '24 Hours'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '24 Hours'),])
 
 m24hx <- coeftest(m24h, vcov = vcovCL, cluster = ~idvar)
 
@@ -415,8 +433,8 @@ m48h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '48 Hours'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '48 Hours'),])
 
 m48hx <- coeftest(m48h, vcov = vcovCL, cluster = ~idvar)
 
@@ -426,25 +444,25 @@ m72h <- lm(Y_distance ~ factor(Gender) + Competitors + Gender_Pct + Overall_PY
            + Experience_Years + I(Experience_Years^2) + Days_Since_Last_Race
            + I(Days_Since_Last_Race^2) + Altitude + Some_HS + HS + Some_Uni + Associate
            + Bachelor + Graduate + Unemployment_Rate + Median_Household_Income
-           + factor(RACE_Month)*factor(RACE_Year) + factor(idvar) + factor(Runner_ID),
-           data = compdata[which(compdata$RACE_Distance == '72 Hours'),])
+           + factor(RACE_Month)*factor(RACE_Year) + factor(StateX) + factor(idvar) + factor(Runner_ID),
+           data = compdata2[which(compdata2$RACE_Distance == '72 Hours'),])
 
 m72hx <- coeftest(m72h, vcov = vcovCL, cluster = ~idvar)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX', 'Runner_ID')),
           paste(direc, 'results_runner_FE_tex.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50kx,m100kx,m50mx,m100mx,tmodx,m6hx,m12hx,m24hx,m48hx,m72hx,dmodx,modx,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX', 'Runner_ID')),
           paste(direc, 'results_runner_FE.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
-                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX', 'Runner_ID')),
           paste(direc, 'results_runner_FE_tex_xxx.txt', sep = ''), row.names = FALSE)
 
 write.csv(stargazer(m50k,m100k,m50m,m100m,tmod,m6h,m12h,m24h,m48h,m72h,dmod,mod,
-                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'Runner_ID')),
+                    type = 'text', omit.stat = c('f','ser'), omit = c('RACE_Month', 'RACE_Year', 'idvar', 'StateX', 'Runner_ID')),
           paste(direc, 'results_runner_FE_xxx.txt', sep = ''), row.names = FALSE)
 
 # Creating summary statistics
